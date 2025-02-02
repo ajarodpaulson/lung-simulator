@@ -1,6 +1,6 @@
 # Lung Simulator
 
-A simplified representation of key ventilation parameters.
+A simplified representation of key ventilation parameters and their impact on ventilation.
 
 ## What does the application do?
 The application depicts a model of a respiratory system, several modifiable physical parameters, and several waveforms that illustrate the impact of these parameters on key ventilation metrics.
