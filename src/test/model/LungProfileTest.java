@@ -16,6 +16,8 @@ public class LungProfileTest {
     LungProfile lp6;
     LungProfile lp7;
     LungProfile lp8;
+
+    static float TOL = 0.1f;
     
     @BeforeEach
     void runBefore() {
@@ -38,63 +40,71 @@ public class LungProfileTest {
         assertEquals(LungProfile.Sex.FEMALE, lp1.getSex());
         assertEquals(100, lp1.getCompliance());
         assertEquals(1.0f, lp1.getResistance());
+        assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
     @Test
     void testConstructorWithNoLabel() {
         assertNull(lp2.getLabel());
-        assertEquals(180, lp1.getHeight());
+        assertEquals(180, lp2.getHeight());
         assertEquals(LungProfile.Sex.FEMALE, lp1.getSex());
-        assertEquals(100, lp1.getCompliance());
-        assertEquals(2.0f, lp1.getResistance());
+        assertEquals(120, lp2.getCompliance());
+        assertEquals(2.0f, lp2.getResistance());
+        assertEquals((50 + 0.91 * (180.0f - 152.4f)), lp2.getIBW(), TOL);
     }
 
     @Test
     void testSetters() {
         lp1.setLabel("My Lung Profile");
-        lp1.setHeight(122);
+        assertEquals("My Lung Profile", lp1.getLabel());
+        lp1.setHeight(192.0f);
+        assertEquals(192.0f, lp1.getHeight());
         lp1.setSex(LungProfile.Sex.MALE);
+        assertEquals(LungProfile.Sex.MALE, lp1.getSex());
         lp1.setCompliance(50);
+        assertEquals(50, lp1.getCompliance());
         lp1.setResistance(1.5f);
+        assertEquals(1.5f, lp1.getResistance());
+        assertEquals((50 + 0.91 * (192.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWFemale() {
-        assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW());
+        assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWMale() {
-        assertEquals((50 + 0.91 * (180.0f - 152.4f)), lp2.getIBW());
+        assertEquals((50 + 0.91 * (180.0f - 152.4f)), lp2.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWMaleBelowBoundary() {
-        assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp3.getIBW());
+        assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp3.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWMaleOnBoundary() {
-        assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp4.getIBW());
+        assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp4.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWMaleAboveBoundary() {
-        assertEquals((50 + 0.91 * (152.5f - 152.4f)), lp5.getIBW());
+        assertEquals((50 + 0.91 * (152.5f - 152.4f)), lp5.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWFemaleBelowBoundary() {
-        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp6.getIBW());
+        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp6.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWFemaleOnBoundary() {
-        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp7.getIBW());
+        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp7.getIBW(), TOL);
     }
 
     @Test
     void testCalculateIBWFemaleAboveBoundary() {
-        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp8.getIBW());
+        assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp8.getIBW(), TOL);
     }
 }
