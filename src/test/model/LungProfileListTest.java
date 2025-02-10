@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LungProfileListTest {
-    LungProfile lp1;
-    LungProfile lp2;
-    LungProfile lp3;
+public class LungProfileListTest extends TestLungProfiles {
     LungProfileList lungProfileList0Long;
     LungProfileList lungProfileList1Long;
     LungProfileList lungProfileList2Long;
@@ -16,9 +13,6 @@ public class LungProfileListTest {
 
     @BeforeEach 
     void runBefore() {
-        lp1 = new LungProfile("COPD", 158.0f, LungProfile.Sex.FEMALE, 100, 1.0f);
-        lp2 = new LungProfile("Asthma", 180.0f, LungProfile.Sex.MALE, 120, 2.0f);
-        lp3 = new LungProfile("Tuberculosis", 152.3f, LungProfile.Sex.MALE, 85, 1.8f);
 
         lungProfileList0Long = new LungProfileList();
         

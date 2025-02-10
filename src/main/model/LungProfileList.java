@@ -9,7 +9,7 @@ import java.util.Optional;
  */
 public class LungProfileList {
 
-    List<LungProfile> lpList;
+    private List<LungProfile> lpList;
 
     /*
      * Constructs new LungProfileList with empty list

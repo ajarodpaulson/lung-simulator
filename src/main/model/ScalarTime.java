@@ -7,16 +7,20 @@ package model;
 public abstract class ScalarTime {
     protected int amplitude; 
     protected int horStretch; 
-    protected int phaseShift;
+    protected final int phaseShift = 0;
     protected int vertShift; 
 
+    private int tidalVolume;
+    private int respRate;
+    private int compliance;
+    private int resistance;
+
     /*
-     * EFFECTS: constructs a new ScalarTime with supplied a (amplitude), hs (horizontal stretch),
-     * ps (phase shift), and vs (vertical stretch)
-     * Parameter units defined by subclassing types
+     * EFFECTS: constructs a new ScalarTime with supplied tidal volume (ml), 
+     * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), resistance (cmH20/L/s)
      * XXX how do you write effects clause for constructor of an abstract class?
      */
-    protected ScalarTime(int a, int hs, int ps, int vs) {
+    protected ScalarTime(int tidalVolume, int respRate, int compliance, float resistance) {
         // TODO
     }
 
@@ -28,6 +32,11 @@ public abstract class ScalarTime {
         this.amplitude = amplitude;
     }
 
+    /*
+     * EFFECTS: calculates the amplitude of the waveform modelling the breathing cycle
+     */
+    protected abstract void calculateAmplitude();
+
     protected int getHorStretch() {
         return horStretch;
     }
@@ -36,13 +45,10 @@ public abstract class ScalarTime {
         this.horStretch = horStretch;
     }
 
-    protected int getPhaseShift() {
-        return phaseShift;
-    }
-
-    protected void setPhaseShift(int phaseShift) {
-        this.phaseShift = phaseShift;
-    }
+    /*
+     * EFFECTS: calculates the horizontal stretch of the waveform modelling the breathing cycle
+     */
+    protected abstract void calculateHorStretch();
 
     protected int getVertShift() {
         return vertShift;
@@ -51,6 +57,11 @@ public abstract class ScalarTime {
     protected void setVertShift(int vertShift) {
         this.vertShift = vertShift;
     }
+
+    /*
+     * EFFECTS: calculates the horizontal stretch of the waveform modelling the breathing cycle
+     */
+    protected abstract void calculateVertStretch();
 
     /*
      * REQUIRES: time > 0 seconds

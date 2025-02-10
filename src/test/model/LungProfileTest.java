@@ -6,31 +6,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class LungProfileTest {
-    
-    LungProfile lp1;
-    LungProfile lp2;
-    LungProfile lp3;
-    LungProfile lp4;
-    LungProfile lp5;
-    LungProfile lp6;
-    LungProfile lp7;
-    LungProfile lp8;
+public class LungProfileTest extends TestLungProfiles {
 
     static float TOL = 0.1f;
     
     @BeforeEach
     void runBefore() {
-        lp1 = new LungProfile("COPD", 158.0f, LungProfile.Sex.FEMALE, 100, 1.0f);
-        lp2 = new LungProfile(180.0f, LungProfile.Sex.MALE, 120, 2.0f);
 
-        lp3 = new LungProfile("Asthma", 152.3f, LungProfile.Sex.MALE, 100, 1.0f);
-        lp4 = new LungProfile(152.4f, LungProfile.Sex.MALE, 120, 2.0f);
-        lp5 = new LungProfile("COPD", 152.5f, LungProfile.Sex.MALE, 100, 1.0f);
-        
-        lp6 = new LungProfile(152.3f, LungProfile.Sex.FEMALE, 120, 2.0f);
-        lp7 = new LungProfile("COPD", 152.4f, LungProfile.Sex.FEMALE, 100, 1.0f);
-        lp8 = new LungProfile(152.5f, LungProfile.Sex.FEMALE, 120, 2.0f);
     }
 
     @Test
@@ -39,18 +21,22 @@ public class LungProfileTest {
         assertEquals(158, lp1.getHeight());
         assertEquals(LungProfile.Sex.FEMALE, lp1.getSex());
         assertEquals(100, lp1.getCompliance());
+        assertEquals(350, lp1.getTidalVolume());
+        assertEquals(16, lp1.getRespRate());
         assertEquals(1.0f, lp1.getResistance());
         assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
     @Test
     void testConstructorWithNoLabel() {
-        assertNull(lp2.getLabel());
-        assertEquals(180, lp2.getHeight());
-        assertEquals(LungProfile.Sex.FEMALE, lp1.getSex());
-        assertEquals(120, lp2.getCompliance());
-        assertEquals(2.0f, lp2.getResistance());
-        assertEquals((50 + 0.91 * (180.0f - 152.4f)), lp2.getIBW(), TOL);
+        assertNull(lp4.getLabel());
+        assertEquals(152.4f, lp4.getHeight(), TOL);
+        assertEquals(LungProfile.Sex.MALE, lp4.getSex());
+        assertEquals(120, lp4.getCompliance());
+        assertEquals(300, lp4.getTidalVolume());
+        assertEquals(30, lp4.getRespRate());
+        assertEquals(2.0f, lp4.getResistance(), TOL);
+        assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp4.getIBW(), TOL);
     }
 
     @Test
@@ -61,11 +47,24 @@ public class LungProfileTest {
         assertEquals(192.0f, lp1.getHeight());
         lp1.setSex(LungProfile.Sex.MALE);
         assertEquals(LungProfile.Sex.MALE, lp1.getSex());
+        lp1.setTidalVolume(390);
+        assertEquals(390, lp1.getTidalVolume());
+        lp1.setRespRate(20);
+        assertEquals(20, lp1.getRespRate());
         lp1.setCompliance(50);
         assertEquals(50, lp1.getCompliance());
         lp1.setResistance(1.5f);
         assertEquals(1.5f, lp1.getResistance());
         assertEquals((50 + 0.91 * (192.0f - 152.4f)), lp1.getIBW(), TOL);
+    }
+
+    // XXX REMOVE AFTER
+    /*
+     * Why does this work even though above I've change it to "My Lung Profile"
+     */
+    @Test
+    void testValueOfLP1() {
+        assertEquals("COPD", lp1.getLabel());
     }
 
     @Test

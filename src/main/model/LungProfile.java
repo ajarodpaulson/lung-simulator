@@ -2,18 +2,21 @@ package model;
 
 /* 
 * Represents a simplified adult lung profile with an optional label, height (cm), biological sex,
-* compliance (ml/cmH2O), and resistance (cmH20/L/s), and ideal body weight (kg)
+* tidal volume (ml), respiratory rate (breaths/min), compliance (ml/cmH2O), resistance (cmH20/L/s),
+* and ideal body weight (kg)
 */
 public class LungProfile {
 
-    String label;
-    float height;
-    Sex sex;
-    int compliance;
-    float resistance;
-    float idealBodyWeight;
+    private String label;
+    private float height;
+    private Sex sex;
+    private int tidalVolume;
+    private int respRate;
+    private int compliance;
+    private float resistance;
+    private float idealBodyWeight;
 
-    enum Sex {
+    public enum Sex {
         MALE, FEMALE
     }
 
@@ -22,10 +25,12 @@ public class LungProfile {
      * compliance (ml/cmH2O), and resistance (cmH20/L/s)
      * Also sets ideal body weight (kg)
      */
-    public LungProfile(String label, float height, Sex sex, int compliance, float resistance) {
+    public LungProfile(String label, float height, Sex sex, int tv, int rr, int compliance, float resistance) {
         this.label = label;
         this.height = height;
         this.sex = sex;
+        this.tidalVolume = tv;
+        this.respRate = rr;
         this.compliance = compliance;
         this.resistance = resistance;
         setIBW(calculateIBW(height, sex));
@@ -34,8 +39,8 @@ public class LungProfile {
     /*
      * EFFECTS: constructs a new lung profile without a label
      */
-    public LungProfile(float height, Sex sex, int compliance, float resistance) {
-        this(null, height, sex, compliance, resistance);
+    public LungProfile(float height, Sex sex, int tv, int rr, int compliance, float resistance) {
+        this(null, height, sex, tv, rr, compliance, resistance);
     }
 
     // getters
@@ -50,6 +55,14 @@ public class LungProfile {
 
     public Sex getSex() {
         return this.sex;
+    }
+
+    public int getTidalVolume() {
+        return this.tidalVolume;
+    }
+
+    public int getRespRate() {
+        return this.respRate;
     }
 
     public int getCompliance() {
@@ -87,6 +100,14 @@ public class LungProfile {
     public void setSex(Sex sex) {
         this.sex = sex;
         setIBW(calculateIBW(this.height, this.sex));
+    }
+
+    public void setTidalVolume(int tv) {
+        this.tidalVolume = tv;
+    }
+
+    public void setRespRate(int rr) {
+        this.respRate = rr;
     }
 
     public void setCompliance(int compliance) {
