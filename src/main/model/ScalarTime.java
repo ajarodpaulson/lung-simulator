@@ -5,15 +5,15 @@ package model;
  * phase shift, and vertical stretch
  */
 public abstract class ScalarTime {
-    protected int amplitude; 
-    protected int horStretch; 
-    protected final int phaseShift = 0;
-    protected int vertShift; 
+    private float amplitude; 
+    private float horStretch; 
+    private float phaseShift;
+    private float vertShift; 
 
-    private int tidalVolume;
-    private int respRate;
-    private int compliance;
-    private int resistance;
+    protected int tidalVolume;
+    protected int respRate;
+    protected int compliance;
+    protected float resistance;
 
     /*
      * EFFECTS: constructs a new ScalarTime with supplied tidal volume (ml), 
@@ -24,11 +24,11 @@ public abstract class ScalarTime {
         // TODO
     }
 
-    protected int getAmplitude() {
-        return amplitude;
+    protected float getAmplitude() {
+        return this.amplitude;
     }
 
-    protected void setAmplitude(int amplitude) {
+    protected void setAmplitude(float amplitude) {
         this.amplitude = amplitude;
     }
 
@@ -37,24 +37,40 @@ public abstract class ScalarTime {
      */
     protected abstract void calculateAmplitude();
 
-    protected int getHorStretch() {
-        return horStretch;
+    protected float getHorStretch() {
+        return this.horStretch;
     }
 
-    protected void setHorStretch(int horStretch) {
+    protected void setHorStretch(float horStretch) {
         this.horStretch = horStretch;
     }
 
     /*
      * EFFECTS: calculates the horizontal stretch of the waveform modelling the breathing cycle
      */
-    protected abstract void calculateHorStretch();
-
-    protected int getVertShift() {
-        return vertShift;
+    private void calculateHorStretch() {
+        // TODO
     }
 
-    protected void setVertShift(int vertShift) {
+    protected float getPhaseShift() {
+        return this.phaseShift;
+    }
+
+    protected void setPhaseShift(float phaseShift) {
+        this.phaseShift = phaseShift;
+    }
+
+    /*
+     * EFFECTS: calculates the phase shift of the waveform modelling the breathing cycle
+     */
+    protected abstract void calculatePhaseShift();
+
+
+    protected float getVertShift() {
+        return this.vertShift;
+    }
+
+    protected void setVertShift(float vertShift) {
         this.vertShift = vertShift;
     }
 
@@ -73,26 +89,58 @@ public abstract class ScalarTime {
     }
 
     /*
-     * EFFECTS: returns the maximum value of the scalar-time function
+     * EFFECTS: calculates and returns the maximum value of the scalar-time function
      */
-    protected int getMaximumScalarValue() {
+    protected int calculateMaximumScalarValue() {
         // TODO
         return 0;
     }
     
     /*
-     * EFFECTS: returns the minimum value of the scalar-time function
+     * EFFECTS: calculates and returns the minimum value of the scalar-time function
      */
-    protected int getMinimumScalarValue() {
+    protected int calculateMinimumScalarValue() {
         // TODO
         return 0;
     }
 
     /*
-     * EFFECTS: returns the period for the scalar-time function
+     * EFFECTS: calculates and returns the period for the scalar-time function
      */
-    protected float getBreathCycleTime() {
+    protected float calculateBreathCycleTime() {
         // TODO
         return 0.0f;
+    }
+
+    protected int getTidalVolume() {
+        return tidalVolume;
+    }
+
+    protected void setTidalVolume(int tidalVolume) {
+        this.tidalVolume = tidalVolume;
+    }
+
+    protected int getRespRate() {
+        return respRate;
+    }
+
+    protected void setRespRate(int respRate) {
+        this.respRate = respRate;
+    }
+
+    protected int getCompliance() {
+        return compliance;
+    }
+
+    protected void setCompliance(int compliance) {
+        this.compliance = compliance;
+    }
+
+    protected float getResistance() {
+        return resistance;
+    }
+
+    protected void setResistance(float resistance) {
+        this.resistance = resistance;
     }
 }
