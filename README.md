@@ -13,7 +13,7 @@ I'm a respiratory therapist with a keen interest in respiratory physiology and m
 
 ## User Stories
 - As a user, I want to be able to adjust key parameters for a respiratory system including: compliance, resistance, height, and sex
-- As a user, I want to be able observe how those parameters affect ventilation with key physical waveforms (e.g., pressure-time, volume-time, flow-time)
+- As a user, I want to be able observe how those parameters affect key physical scalar metrics
 - As a user, I want to be able to add the respiratory system profiles I've created to a saved list
 - As a user, I want to be able to view and load a profile from the list of profiles I've created
 - As a user, I want to be able to select from a list of pre-defined, common pathologies of the lung
