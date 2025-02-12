@@ -14,35 +14,30 @@ public class VolumeTimeScalarTest extends ScalarTimeTest {
 
     @Override
     void testAmplitude() {
-        st1.setAmplitude(st1.calculateAmplitude());
-        assertEquals(300, st1.getAmplitude());
-        st2.setAmplitude(st2.calculateAmplitude());
-        assertEquals(450, st2.getAmplitude());
+        assertEquals(300, st1.calculateAmplitude());
+        assertEquals(450, st2.calculateAmplitude());
     }
 
     @Override
     void testPhaseShift() {
-        st1.setPhaseShift(st1.calculatePhaseShift());
-        assertEquals(0, st1.getPhaseShift());
-        st2.setPhaseShift(st2.calculatePhaseShift());
-        assertEquals(0, st2.getPhaseShift());
+        assertEquals(0, st1.calculatePhaseShift());
+        assertEquals(0, st2.calculatePhaseShift());
     }
 
     @Override
     void testVertShift() {
-        st1.setVertShift(st1.calculateVertShift());
-        assertEquals(0, st1.getVertShift());
-        st2.setVertShift(st2.calculateVertShift());
-        assertEquals(0, st2.getVertShift());
+        assertEquals(0, st1.calculateVertShift());
+        assertEquals(0, st2.calculateVertShift());
     }
 
     @Test
     @Override
     void testCalculateScalarValueAtTimeInSeconds() {
         assertEquals(0, st1.calculateScalarValueAtTimeInSeconds(0.0f), TOL);
-        assertEquals(300, st1.calculateScalarValueAtTimeInSeconds(3.75f / 4), TOL);
-        assertEquals(0, st1.calculateScalarValueAtTimeInSeconds(2.0f * 3.75f / 4), TOL);
-        assertEquals(300, st1.calculateScalarValueAtTimeInSeconds(3.0f * 3.75f / 4), TOL);
+        assertEquals(150, st1.calculateScalarValueAtTimeInSeconds(3.75f / 4), TOL);
+        assertEquals(300, st1.calculateScalarValueAtTimeInSeconds(2.0f * 3.75f / 4), TOL);
+        assertEquals(150, st1.calculateScalarValueAtTimeInSeconds(3.0f * 3.75f / 4), TOL);
+        assertEquals(0, st1.calculateScalarValueAtTimeInSeconds(3.75f), TOL);
     }
 
     @Test
@@ -54,7 +49,7 @@ public class VolumeTimeScalarTest extends ScalarTimeTest {
     @Test
     @Override
     void testCalculateMinimumScalarValue() {
-        assertEquals(0, st1.calculateMaximumScalarValue(), TOL);
+        assertEquals(0, st1.calculateMinimumScalarValue(), TOL);
     }
 
 }

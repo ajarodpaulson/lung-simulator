@@ -1,34 +1,43 @@
 package model;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class ScalarTimeTest {
-   protected ScalarTime st1;
-   protected ScalarTime st2;
-   
-   float TOL = 0.1f;
+    protected ScalarTime st1;
+    protected ScalarTime st2;
 
-   protected abstract ScalarTime createScalarTimeInstance(int tidalVolume, int respRate, int compliance, float resistance);
-   /*
-    * XXX I don't want to be able to instantiate ScalarTime because it doesn't make sense to...
-    * yet, I do want there to be some common objects for each subclass to test with
-    */
+    static float TOL = 0.1f;
+
+    // EFFECTS: helper method for subclasses to create new instances
+    protected abstract ScalarTime createScalarTimeInstance(
+            int tidalVolume, int respRate, int compliance, float resistance);
+    /*
+     * XXX I don't want to be able to instantiate ScalarTime because it doesn't make
+     * sense to...
+     * yet, I do want there to be some common objects for each subclass to test with
+     */
+
     @BeforeEach
     void beforeEach() {
-        st1 = createScalarTimeInstance(300, 16, 10, 1.0f);
-        st2 = createScalarTimeInstance(450, 20, 15, 2.0f);
+        st1 = createScalarTimeInstance(300, 16, 100, 1.0f);
+        st2 = createScalarTimeInstance(450, 20, 75, 2.0f);
     }
 
     @Test
-    abstract void testConstructor();
+    void testConstructor() {
+        assertEquals(300, st1.getTidalVolume());
+        assertEquals(16, st1.getRespRate());
+        assertEquals(100, st1.getCompliance());
+        assertEquals(1.0f, st1.getResistance(), TOL);
+    }
 
-    @Test 
-    void testSetters(){
+    @Test
+    void testSetters() {
         st1.setTidalVolume(275);
-        assertEquals(275, st1.getCompliance());
+        assertEquals(275, st1.getTidalVolume());
         st1.setRespRate(35);
         assertEquals(35, st1.getRespRate());
         st1.setCompliance(180);
@@ -38,28 +47,27 @@ public abstract class ScalarTimeTest {
     }
 
     /*
-     * XXX is this a reasonable thing to do? can't think of edge cases or anything, but do want to enforce that
+     * XXX is this a reasonable thing to do? can't think of edge cases or anything,
+     * but do want to enforce that
      * subclasses will test these general behaviours
      */
-    @Test
+    
     abstract void testAmplitude();
-
+    
     @Test
-    abstract void testHorStretch();
-
-    @Test
+    void testConversionFactor() {
+        assertEquals(Math.PI* 2 / st1.calculateBreathCycleTime(), st1.calculateConversionFactor(), TOL);
+        assertEquals(Math.PI* 2 / st2.calculateBreathCycleTime(), st2.calculateConversionFactor(), TOL);
+    }
+    
     abstract void testPhaseShift();
 
-    @Test
     abstract void testVertShift();
 
-    @Test
     abstract void testCalculateScalarValueAtTimeInSeconds();
 
-    @Test
     abstract void testCalculateMaximumScalarValue();
 
-    @Test
     abstract void testCalculateMinimumScalarValue();
 
 }

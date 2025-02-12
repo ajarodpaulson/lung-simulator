@@ -5,111 +5,80 @@ package model;
  * phase shift, and vertical stretch
  */
 public abstract class ScalarTime {
-    private float amplitude; 
-    private float horStretch; 
-    private float phaseShift;
-    private float vertShift; 
-
     protected int tidalVolume;
     protected int respRate;
     protected int compliance;
     protected float resistance;
 
     /*
-     * EFFECTS: constructs a new ScalarTime with supplied tidal volume (ml), 
-     * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), resistance (cmH20/L/s)
-     * XXX how do you write effects clause for constructor of an abstract class?
+     * EFFECTS: constructs a new ScalarTime with supplied tidal volume (ml),
+     * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), resistance
+     * (cmH20/L/s)
      */
     protected ScalarTime(int tidalVolume, int respRate, int compliance, float resistance) {
-        // TODO
-    }
-
-    protected float getAmplitude() {
-        return this.amplitude;
-    }
-
-    protected void setAmplitude(float amplitude) {
-        this.amplitude = amplitude;
+        this.tidalVolume = tidalVolume;
+        this.respRate = respRate;
+        this.compliance = compliance;
+        this.resistance = resistance;
     }
 
     /*
-     * EFFECTS: calculates the amplitude of the waveform modelling the breathing cycle
+     * EFFECTS: calculates the amplitude of the waveform modelling the breathing
+     * cycle
      */
-    protected abstract void calculateAmplitude();
+    protected abstract float calculateAmplitude();
 
-    protected float getHorStretch() {
-        return this.horStretch;
-    }
-
-    protected void setHorStretch(float horStretch) {
-        this.horStretch = horStretch;
+    /*
+     * EFFECTS: returns 2pi / total breath cycle time
+     */
+    protected float calculateConversionFactor() {
+        return (float) (2 * Math.PI / calculateBreathCycleTime());
     }
 
     /*
-     * EFFECTS: calculates the horizontal stretch of the waveform modelling the breathing cycle
+     * EFFECTS: calculates the phase shift of the waveform modelling the breathing
+     * cycle
      */
-    private void calculateHorStretch() {
-        // TODO
-    }
-
-    protected float getPhaseShift() {
-        return this.phaseShift;
-    }
-
-    protected void setPhaseShift(float phaseShift) {
-        this.phaseShift = phaseShift;
-    }
+    protected abstract float calculatePhaseShift();
 
     /*
-     * EFFECTS: calculates the phase shift of the waveform modelling the breathing cycle
+     * EFFECTS: calculates the vertical shift of the waveform modelling the
+     * breathing cycle
      */
-    protected abstract void calculatePhaseShift();
-
-
-    protected float getVertShift() {
-        return this.vertShift;
-    }
-
-    protected void setVertShift(float vertShift) {
-        this.vertShift = vertShift;
-    }
-
-    /*
-     * EFFECTS: calculates the horizontal stretch of the waveform modelling the breathing cycle
-     */
-    protected abstract void calculateVertStretch();
+    protected abstract float calculateVertShift();
 
     /*
      * REQUIRES: time > 0 seconds
-     * EFFECTS: calculates and returns the scalar value at the supplied time in seconds (decimals ok)
+     * EFFECTS: calculates and returns the scalar value at the supplied time in
+     * seconds
+     * Output units determined by subclasses
      */
-    protected float calculateScalarValueAtTimeInSeconds (float time) {
-        // TODO
-        return 0.0f;
+    protected float calculateScalarValueAtTimeInSeconds(float time) {
+        return (float) (-1 * calculateAmplitude() * Math.cos(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
     }
 
     /*
      * EFFECTS: calculates and returns the maximum value of the scalar-time function
      */
-    protected int calculateMaximumScalarValue() {
-        // TODO
-        return 0;
+    protected float calculateMaximumScalarValue() {
+        return Math.abs(calculateAmplitude()) + calculateVertShift();
     }
-    
+
     /*
      * EFFECTS: calculates and returns the minimum value of the scalar-time function
      */
-    protected int calculateMinimumScalarValue() {
-        // TODO
-        return 0;
+    protected float calculateMinimumScalarValue() {
+        return calculateVertShift() - Math.abs(calculateAmplitude());
     }
 
     /*
      * EFFECTS: calculates and returns the period for the scalar-time function
+     * jobs
+     * take resp rate, which is in breaths per minute
+     * breaths/min = breaths / 60s
      */
     protected float calculateBreathCycleTime() {
-        // TODO
-        return 0.0f;
+        return 60.0f / this.getRespRate();
     }
 
     protected int getTidalVolume() {
