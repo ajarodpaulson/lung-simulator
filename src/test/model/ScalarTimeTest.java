@@ -60,8 +60,8 @@ public abstract class ScalarTimeTest {
     
     @Test
     void testConversionFactor() {
-        assertEquals(Math.PI* 2 / st1.calculateBreathCycleTime(), st1.calculateConversionFactor(), TOL);
-        assertEquals(Math.PI* 2 / st2.calculateBreathCycleTime(), st2.calculateConversionFactor(), TOL);
+        assertEquals(Math.PI * 2 / st1.calculateBreathCycleTime(), st1.calculateConversionFactor(), TOL);
+        assertEquals(Math.PI * 2 / st2.calculateBreathCycleTime(), st2.calculateConversionFactor(), TOL);
     }
     
     abstract void testPhaseShift();

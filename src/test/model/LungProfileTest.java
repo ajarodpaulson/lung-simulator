@@ -59,9 +59,10 @@ public class LungProfileTest extends TestLungProfiles {
 
     // XXX can implement an equals method later for the LungProfile class
     @Test
-    void testGetVolumeTimeScalar(){
-        VolumeTimeScalar vtScalar1 = new VolumeTimeScalar(lp1.getTidalVolume(), lp1.getRespRate(), lp1.getCompliance(), lp1.getResistance());
-        VolumeTimeScalar vtScalar2 =  lp1.getVolumeTimeScalar();
+    void testGetVolumeTimeScalar() {
+        VolumeTimeScalar vtScalar1 = new VolumeTimeScalar(
+                lp1.getTidalVolume(), lp1.getRespRate(), lp1.getCompliance(), lp1.getResistance());
+        VolumeTimeScalar vtScalar2 = lp1.getVolumeTimeScalar();
         assertEquals(vtScalar1.calculateAmplitude(), vtScalar2.calculateAmplitude());
         assertEquals(vtScalar1.calculateBreathCycleTime(), vtScalar2.calculateBreathCycleTime());
         assertEquals(vtScalar1.calculateMaximumScalarValue(), vtScalar2.calculateMaximumScalarValue());

@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VolumeTimeScalarTest extends ScalarTimeTest {
 
     @Override
-    protected VolumeTimeScalar createScalarTimeInstance(int tidalVolume, int respRate, int compliance, float resistance) {
+    protected VolumeTimeScalar createScalarTimeInstance(
+            int tidalVolume, int respRate, int compliance, float resistance) {
         return new VolumeTimeScalar(tidalVolume, respRate, compliance, resistance);
     }
 
@@ -64,7 +65,7 @@ public class VolumeTimeScalarTest extends ScalarTimeTest {
     @Test
     @Override
     void testGetScalarName() {
-       assertEquals("volume", st1.getScalarName());
+        assertEquals("volume", st1.getScalarName());
     }
 
 }

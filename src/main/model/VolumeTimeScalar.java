@@ -25,7 +25,7 @@ public class VolumeTimeScalar extends ScalarTime {
     }
 
     @Override
-    public String getUnits(){
+    public String getUnits() {
         return "mls";
     }
 
