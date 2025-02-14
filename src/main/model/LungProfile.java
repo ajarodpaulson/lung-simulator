@@ -28,9 +28,8 @@ public class LungProfile {
     }
 
     /*
-     * EFFECTS: constructs a new lung profile with a label, height (cm), biological
-     * sex, tidal volume (mls), respiratory rate (breaths/min),
-     * compliance (ml/cmH2O), and resistance (cmH20/L/s)
+     * EFFECTS: constructs a new lung profile with a label, height, biological
+     * sex, tidal volume, respiratory rate, compliance, and resistance
      * Also sets ideal body weight (kg)
      */
     public LungProfile(String label, float height, String sex, int tv, int rr, int compliance, float resistance) {

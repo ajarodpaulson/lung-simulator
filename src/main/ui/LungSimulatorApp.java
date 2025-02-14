@@ -1,7 +1,5 @@
 package ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -73,7 +71,7 @@ public class LungSimulatorApp {
     /*
      * EFFECTS: displays a list of commands that can be used in the main menu
      */
-    @SuppressWarnings("methodlength") // use approved by TA Bruce 
+    @SuppressWarnings("methodlength") // use approved by TA Bruce
     public void processMenuCommands(String input) {
         printDivider();
         switch (input) {
@@ -115,7 +113,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: returns true and prints an informative message if the lung profile list is empty
+     * EFFECTS: returns true and prints an informative message if the lung profile
+     * list is empty
      */
     private boolean printMsgIfLungProfileListEmpty() {
         if (this.lpManager.getLungProfiles().isEmpty()) {
@@ -128,7 +127,7 @@ public class LungSimulatorApp {
 
     /*
      * EFFECTS: looks up a lung profile by user supplied label and processes the
-     * output using action or
+     * output using action (e.g., deletes from list, summarizes characteristics)
      * Informs the user if profile not found and goes back to the main menu
      */
     private void findAndProcessLungProfile(Consumer<LungProfile> action) {
@@ -215,7 +214,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * REQUIRES: requires numbers for height, compliance, resistance, respiratory rate, and tidal
+     * REQUIRES: requires numbers for height, compliance, resistance, respiratory
+     * rate, and tidal
      * volume questions
      * MODIFIES: this
      * EFFECTS: creates a new lung profile using user's input
@@ -276,7 +276,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: asks the user whether they would like to add the lung profile they created to 
+     * EFFECTS: asks the user whether they would like to add the lung profile they
+     * created to
      * the list or discard and go back to main menu
      */
     public void askUserAddLungProfileToList() {
@@ -289,7 +290,8 @@ public class LungSimulatorApp {
 
         if (input.equals("a")) {
             addLungProfileToList();
-        } 
+        }
+        System.out.println();
     }
 
     // MODIFIES: this

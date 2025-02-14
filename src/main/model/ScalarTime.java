@@ -1,7 +1,7 @@
 package model;
 
 /* 
- * Represents the metrics for generic ventilator scalar versus time which is 
+ * Represents the metrics for a generic ventilator scalar versus time which is 
  * derivable from the tidal volume, respiratory rate, respiratory system compliance, and lung resistance.
  */
 public abstract class ScalarTime {
