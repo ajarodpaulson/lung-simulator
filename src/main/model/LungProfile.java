@@ -111,6 +111,13 @@ public class LungProfile {
     }
 
     /*
+     * EFFECTS: creates and returns a new FlowTimeScalar for this lung profile
+     */
+    public FlowTimeScalar getFlowTimeScalar() {
+        return new FlowTimeScalar(tidalVolume, respRate, compliance, resistance);
+    }
+
+    /*
      * MODIFIES: this
      * EFFECTS: sets optional label for this lung profile
      */

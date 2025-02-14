@@ -80,7 +80,8 @@ public class LungSimulatorApp {
             case "n":
                 createNewLungProfile();
                 outputScalarMetrics(currentLungProfile);
-                saveOrMakeNewLungProfile();
+                System.out.println();
+                askUserAddLungProfileToList();
                 break;
             case "v":
                 showAllLungProfileLabels();
@@ -90,9 +91,6 @@ public class LungSimulatorApp {
                 break;
             case "d":
                 deleteLungProfile();
-                break;
-            case "s":
-                addLungProfileToList();
                 break;
             case "q":
                 quitApplication();
@@ -158,7 +156,7 @@ public class LungSimulatorApp {
      * EFFECTS: requests and returns a lung profile label from the user
      */
     private String requestLungProfileLabel() {
-        System.out.println("Enter the label of a lung profile you'd like to view:");
+        System.out.println("Enter the label of the lung profile:");
         String input = this.scanner.nextLine();
         System.out.println();
         return input;
@@ -186,7 +184,7 @@ public class LungSimulatorApp {
                 lp.getCompliance(), LungProfile.complianceUnits,
                 lp.getResistance(), LungProfile.resistanceUnits,
                 lp.getIBW(), LungProfile.idealBWUnits));
-        System.out.println(summarizeScalarTimeMetrics(lp.getVolumeTimeScalar()));
+        outputScalarMetrics(lp);
     }
 
     /*
@@ -203,7 +201,7 @@ public class LungSimulatorApp {
                 System.out.println("Failed to delete lung profile.");
                 return;
             }
-            System.out.println("The lung profile with label " + label + " was deleted.");
+            System.out.println("The lung profile with label \"" + label + "\" was deleted.");
         });
     }
 
@@ -250,8 +248,6 @@ public class LungSimulatorApp {
         this.scanner.nextLine();
 
         this.currentLungProfile = new LungProfile(label, height, sex, tidalVolume, respRate, compliance, resistance);
-
-        System.out.println();
     }
 
     /*
@@ -259,6 +255,7 @@ public class LungSimulatorApp {
      */
     private void outputScalarMetrics(LungProfile lp) {
         System.out.println(summarizeScalarTimeMetrics(currentLungProfile.getVolumeTimeScalar()));
+        System.out.println(summarizeScalarTimeMetrics(currentLungProfile.getFlowTimeScalar()));
     }
 
     /*
@@ -279,17 +276,20 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: asks the user whether they would like to save the current lung profile 
-     * or make a new one; commands can be used in the main menu
+     * EFFECTS: asks the user whether they would like to add the lung profile they created to 
+     * the list or discard and go back to main menu
      */
-    public void saveOrMakeNewLungProfile() {
-        System.out.println("Would you like to save this lung profile or make a new one?");
+    public void askUserAddLungProfileToList() {
+        System.out.println("Would you like to add this lung profile to the list?");
         System.out.println();
-        System.out.println("s: Save lung profile");
-        System.out.println("n: Make a new lung profile");
+        System.out.println("a: Add lung profile to list");
+        System.out.println("b: Discard and go back to main menu");
         printDivider();
         String input = this.scanner.nextLine();
-        processMenuCommands(input);
+
+        if (input.equals("a")) {
+            addLungProfileToList();
+        } 
     }
 
     // MODIFIES: this

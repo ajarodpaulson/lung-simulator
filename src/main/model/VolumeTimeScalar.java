@@ -17,7 +17,7 @@ public class VolumeTimeScalar extends ScalarTime {
 
     @Override
     protected float calculatePhaseShift() {
-        return 0.0f;
+        return calculateBreathCycleTime() / 4.0f;
     }
 
     @Override

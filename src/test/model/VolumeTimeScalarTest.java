@@ -23,8 +23,8 @@ public class VolumeTimeScalarTest extends ScalarTimeTest {
     @Test
     @Override
     void testPhaseShift() {
-        assertEquals(0, st1.calculatePhaseShift());
-        assertEquals(0, st2.calculatePhaseShift());
+        assertEquals(60.0f / 16 / 4.0f, st1.calculatePhaseShift());
+        assertEquals(60.0f / 20 / 4.0f, st2.calculatePhaseShift());
     }
 
     @Test

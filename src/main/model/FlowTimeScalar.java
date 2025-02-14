@@ -18,7 +18,7 @@ public class FlowTimeScalar extends ScalarTime {
 
     @Override
     public float calculateAmplitude() {
-        return (float) (this.tidalVolume * Math.PI / calculateBreathCycleTime() / 2.0f);
+        return (float) (this.tidalVolume * Math.PI / calculateBreathCycleTime());
     }
 
     @Override

@@ -64,6 +64,17 @@ public class LungProfileTest extends TestLungProfiles {
     }
 
     @Test
+    void testGetFlowTimeScalar() {
+        FlowTimeScalar vtScalar1 = new FlowTimeScalar(
+                lp1.getTidalVolume(), lp1.getRespRate(), lp1.getCompliance(), lp1.getResistance());
+        FlowTimeScalar vtScalar2 = lp1.getFlowTimeScalar();
+        assertEquals(vtScalar1.calculateAmplitude(), vtScalar2.calculateAmplitude());
+        assertEquals(vtScalar1.calculateBreathCycleTime(), vtScalar2.calculateBreathCycleTime());
+        assertEquals(vtScalar1.calculateMaximumScalarValue(), vtScalar2.calculateMaximumScalarValue());
+        assertEquals(vtScalar1.calculateMinimumScalarValue(), vtScalar2.calculateMinimumScalarValue());
+    }
+
+    @Test
     void testCalculateIdealBWFemale() {
         assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW(), TOL);
     }

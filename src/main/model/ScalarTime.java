@@ -61,8 +61,8 @@ public abstract class ScalarTime {
      * Output units are determined by subclasses
      */
     protected float calculateScalarValueAtTimeInSeconds(float time) {
-        return (float) (-1 * calculateAmplitude()
-                * Math.cos(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
+        return (float) (calculateAmplitude()
+                * Math.sin(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
     }
 
     /*
