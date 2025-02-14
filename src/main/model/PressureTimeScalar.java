@@ -1,5 +1,9 @@
 package model;
 
+/*
+ * Represents the metrics for the pressure versus time ventilator scalar which is 
+ * derivable from the tidal volume, respiratory rate, respiratory system compliance, and lung resistance.
+ */
 public class PressureTimeScalar extends ScalarTime {
 
     protected PressureTimeScalar(int tidalVolume, int respRate, int compliance, float resistance) {
