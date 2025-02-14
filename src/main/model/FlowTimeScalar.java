@@ -3,38 +3,32 @@ package model;
 public class FlowTimeScalar extends ScalarTime {
 
     protected FlowTimeScalar(int tidalVolume, int respRate, int compliance, float resistance) {
-            super(tidalVolume, respRate, compliance, resistance);
-            //TODO Auto-generated constructor stub
-        }
-    
-        @Override
+        super(tidalVolume, respRate, compliance, resistance);
+    }
+
+    @Override
     public String getUnits() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUnits'");
+        return "L/s";
     }
 
     @Override
     public String getScalarName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getScalarName'");
+        return "flow";
     }
 
     @Override
     public float calculateAmplitude() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateAmplitude'");
+        return (float) (this.tidalVolume * Math.PI / calculateBreathCycleTime() / 2.0f);
     }
 
     @Override
     protected float calculatePhaseShift() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculatePhaseShift'");
+        return 0.0f;
     }
 
     @Override
     protected float calculateVertShift() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateVertShift'");
+        return 0.0f;
     }
 
 }
