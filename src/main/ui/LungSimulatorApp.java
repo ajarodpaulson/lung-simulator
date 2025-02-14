@@ -215,8 +215,7 @@ public class LungSimulatorApp {
 
     /*
      * REQUIRES: requires numbers for height, compliance, resistance, respiratory
-     * rate, and tidal
-     * volume questions
+     * rate, and tidal volume questions
      * MODIFIES: this
      * EFFECTS: creates a new lung profile using user's input
      */
@@ -231,19 +230,19 @@ public class LungSimulatorApp {
         System.out.println("Enter M or F for the person's sex:");
         String sex = this.scanner.nextLine();
 
-        System.out.println("Enter the lung compliance in " + LungProfile.complianceUnits + ":");
+        System.out.println("Enter the lung compliance in " + LungProfile.complianceUnits + " (normal is 50-170):");
         int compliance = this.scanner.nextInt();
         this.scanner.nextLine();
 
-        System.out.println("Enter the lung resistance in " + LungProfile.resistanceUnits + ":");
+        System.out.println("Enter the lung resistance in " + LungProfile.resistanceUnits + " (normal is 0.6-2.4):");
         float resistance = this.scanner.nextFloat();
         this.scanner.nextLine();
 
-        System.out.println("Enter the respiratory rate in " + LungProfile.respRateUnits + ":");
+        System.out.println("Enter the respiratory rate in " + LungProfile.respRateUnits + " (normal is 12-20):");
         int respRate = this.scanner.nextInt();
         this.scanner.nextLine();
 
-        System.out.println("Enter the tidal volume in " + LungProfile.tidalVolumeUnits + ":");
+        System.out.println("Enter the tidal volume in " + LungProfile.tidalVolumeUnits + " (normal is 400-600):");
         int tidalVolume = this.scanner.nextInt();
         this.scanner.nextLine();
 

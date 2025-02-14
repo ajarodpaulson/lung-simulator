@@ -6,6 +6,7 @@ import java.util.Optional;
 
 /*
  * Represents a collection of lung profiles and functionality for managing them
+ * 
  * CLASS INVARIANT(S):
  * Labels in lpList must be unique
  */
