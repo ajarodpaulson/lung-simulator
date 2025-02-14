@@ -1,7 +1,5 @@
 package model;
 
-import model.LungProfile;
-
 /*
  * This class represents pre-configured lung profiles for testing use.
  */
@@ -34,10 +32,3 @@ public class TestLungProfiles {
                 152.5f, "F", 325, 22, 120, 2.0f);
     }
 }
-
-/*
- * XXX I'm wondering why this works though? If I have methods that are mutating
- * these objects and they're not being
- * reset by the setup method...
- * See LungProfile.testValueOfLP1()
- */

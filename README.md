@@ -12,10 +12,10 @@ Learners of respiratory physiology.
 I'm a respiratory therapist with a keen interest in respiratory physiology and mechanical ventilation.
 
 ## User Stories
-- As a user, I want to be able to adjust key parameters for a respiratory system including: compliance, resistance, height, and sex
-- As a user, I want to be able observe how those parameters affect key physical scalar metrics
-- As a user, I want to be able to add the respiratory system profiles I've created to a saved list
-- As a user, I want to be able to view and load a profile from the list of profiles I've created
+- As a user, I want to be able to create a lung profile using key parameters including: height, sex, tidal volume, respiratory rate, compliance, and resistance
+- As a user, I want to know what the metrics for key ventilator scalars (e.g. volume versus time) are for a parameterized lung profile
+- As a user, I want to be able to add the lung profiles I've created to a list
+- As a user, I want to be able to view a lung profile from the list of profiles I've created
 - As a user, I want to be able to select from a list of pre-defined, common pathologies of the lung
 - As a user, I want to be able to observe both spontaneous and mechanical ventilation
 - As a user, I want to be able to select from pre-defined modes of ventilation, adjust the settings of these modes, apply them to the respiratory system, and then observe the resulting metrics

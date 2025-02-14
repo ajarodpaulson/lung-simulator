@@ -11,11 +11,11 @@ public class LungProfileListTest extends TestLungProfiles {
     LungProfileManager lungProfileList2Long;
     LungProfileManager lungProfileList3Long;
 
-    @BeforeEach 
+    @BeforeEach
     void runBefore() {
 
         lungProfileList0Long = new LungProfileManager();
-        
+
         lungProfileList1Long = new LungProfileManager();
         lungProfileList1Long.addLungProfile(lp1);
 
@@ -34,11 +34,6 @@ public class LungProfileListTest extends TestLungProfiles {
         assertTrue(lungProfileList0Long.getLungProfiles().isEmpty());
     }
 
-    /*
-     * label     |     list of lung profiles
-     * in list           0,1,2
-     * not in list       position of supplied label (beginning and end)
-     */
     @Test
     void testFindLungProfile1LongFound() {
         assertEquals(lp1, lungProfileList1Long.findLungProfile("COPD").get());
@@ -54,12 +49,12 @@ public class LungProfileListTest extends TestLungProfiles {
         assertEquals(lp1, lungProfileList2Long.findLungProfile("COPD").get());
     }
 
-    @Test 
+    @Test
     void testFindLungProfile2LongFoundAtEndIndex() {
         assertEquals(lp2, lungProfileList2Long.findLungProfile("Asthma").get());
     }
 
-    @Test 
+    @Test
     void testFindLungProfile2LongNotFound() {
         assertFalse(lungProfileList2Long.findLungProfile("Daenerys Targaryen").isPresent());
     }
@@ -70,7 +65,7 @@ public class LungProfileListTest extends TestLungProfiles {
         assertTrue(lungProfileList0Long.getLungProfiles().contains(lp1));
     }
 
-    @Test 
+    @Test
     void testAddLungProfileTo1Long() {
         lungProfileList1Long.addLungProfile(lp2);
         assertTrue(lungProfileList1Long.getLungProfiles().containsAll(lungProfileList2Long.getLungProfiles()));
@@ -82,13 +77,13 @@ public class LungProfileListTest extends TestLungProfiles {
         assertTrue(lungProfileList2Long.getLungProfiles().containsAll(lungProfileList3Long.getLungProfiles()));
     }
 
-    @Test 
+    @Test
     void deleteLungProfile1LongInList() {
         assertTrue(lungProfileList1Long.deleteLungProfile(lp1));
         assertTrue(lungProfileList1Long.getLungProfiles().isEmpty());
     }
 
-    @Test 
+    @Test
     void deleteLungProfile1LongNotInList() {
         assertFalse(lungProfileList1Long.deleteLungProfile(lp2));
         assertEquals(1, lungProfileList1Long.getLungProfiles().size());
@@ -113,7 +108,4 @@ public class LungProfileListTest extends TestLungProfiles {
         assertFalse(lungProfileList2Long.deleteLungProfile(lp3));
         assertEquals(2, lungProfileList2Long.getLungProfiles().size());
     }
-
-
-
 }

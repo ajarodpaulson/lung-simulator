@@ -11,20 +11,27 @@ public abstract class ScalarTimeTest {
 
     static float TOL = 0.1f;
 
-    // EFFECTS: helper method for subclasses to create new instances
-    protected abstract ScalarTime createScalarTimeInstance(
-            int tidalVolume, int respRate, int compliance, float resistance);
-    /*
-     * XXX I don't want to be able to instantiate ScalarTime because it doesn't make
-     * sense to...
-     * yet, I do want there to be some common objects for each subclass to test with
-     */
-
     @BeforeEach
     void beforeEach() {
         st1 = createScalarTimeInstance(300, 16, 100, 1.0f);
         st2 = createScalarTimeInstance(450, 20, 75, 2.0f);
     }
+
+    abstract void testGetUnits();
+
+    abstract void testGetScalarName();
+
+    abstract void testAmplitude();
+
+    abstract void testPhaseShift();
+
+    abstract void testVertShift();
+
+    abstract void testCalculateScalarValueAtTimeInSeconds();
+
+    abstract void testCalculateMaximumScalarValue();
+
+    abstract void testCalculateMinimumScalarValue();
 
     @Test
     void testConstructor() {
@@ -46,32 +53,16 @@ public abstract class ScalarTimeTest {
         assertEquals(0.8f, st1.getResistance(), TOL);
     }
 
-    abstract void testGetUnits();
-
-    abstract void testGetScalarName();
-
-    /*
-     * XXX is this a reasonable thing to do? can't think of edge cases or anything,
-     * but do want to enforce that
-     * subclasses will test these general behaviours
-     */
-    
-    abstract void testAmplitude();
-    
     @Test
     void testConversionFactor() {
         assertEquals(Math.PI * 2 / st1.calculateBreathCycleTime(), st1.calculateConversionFactor(), TOL);
         assertEquals(Math.PI * 2 / st2.calculateBreathCycleTime(), st2.calculateConversionFactor(), TOL);
     }
-    
-    abstract void testPhaseShift();
 
-    abstract void testVertShift();
-
-    abstract void testCalculateScalarValueAtTimeInSeconds();
-
-    abstract void testCalculateMaximumScalarValue();
-
-    abstract void testCalculateMinimumScalarValue();
-
+    /*
+     * MODIFIES: this
+     * EFFECTS: helper method for subclasses to create new instances
+     */
+    protected abstract ScalarTime createScalarTimeInstance(
+            int tidalVolume, int respRate, int compliance, float resistance);
 }

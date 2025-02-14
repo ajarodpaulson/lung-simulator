@@ -9,11 +9,6 @@ public class LungProfileTest extends TestLungProfiles {
 
     static float TOL = 0.1f;
 
-    @BeforeEach
-    void runBefore() {
-
-    }
-
     @Test
     void testConstructorWithLabel() {
         assertEquals("COPD", lp1.getLabel());
@@ -57,7 +52,6 @@ public class LungProfileTest extends TestLungProfiles {
         assertEquals((50 + 0.91 * (192.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
-    // XXX can implement an equals method later for the LungProfile class
     @Test
     void testGetVolumeTimeScalar() {
         VolumeTimeScalar vtScalar1 = new VolumeTimeScalar(

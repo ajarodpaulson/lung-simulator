@@ -12,7 +12,7 @@ import model.ScalarTime;
 
 /*
  * A lung simulator application that allows users to configure a lung profile
- * and observe how key scalar metrics change are influenced by key lung
+ * and observe how key scalar metrics are influenced by key lung
  * parameters 
  * 
  * Code reference(s): CPSC210 Lab 4 (Flashcard Reviewer)
@@ -21,10 +21,11 @@ public class LungSimulatorApp {
     private Scanner scanner;
     private boolean isProgramRunning;
     private LungProfileManager lpManager;
-    private int currentLungProfileIndex = 0;
     private LungProfile currentLungProfile;
 
-    // EFFECTS: creates an instance of the Lung Simulator console ui application
+    /*
+     * EFFECTS: creates an instance of the Lung Simulator console ui application
+     */
     public LungSimulatorApp() {
         init();
 
@@ -37,47 +38,55 @@ public class LungSimulatorApp {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: initializes the application with the starting values
+    /*
+     * MODIFIES: this
+     * EFFECTS: initializes the application with the starting values
+     */
     public void init() {
         this.lpManager = new LungProfileManager();
         this.scanner = new Scanner(System.in);
         this.isProgramRunning = true;
     }
 
-    // EFFECTS: displays and processes inputs for the main menu
+    /*
+     * EFFECTS: displays and processes inputs for the main menu
+     */
     public void handleMenu() {
         displayMenu();
         String input = this.scanner.nextLine();
         processMenuCommands(input);
     }
 
-    // EFFECTS: displays a list of commands that can be used in the main menu
+    /*
+     * EFFECTS: displays a list of commands that can be used in the main menu
+     */
     public void displayMenu() {
         System.out.println("Please select an option:\n");
         System.out.println("n: Create a new lung profile");
         System.out.println("v: View all lung profiles by label");
-        System.out.println("c: Choose a lung profile to view by label");
+        System.out.println("c: Choose a lung profile to view");
+        System.out.println("d: Delete a lung profile");
         System.out.println("q: Exit the application");
         printDivider();
     }
 
-    // EFFECTS: processes the user's input in the main menu
-    @SuppressWarnings("methodlength")
+    /*
+     * EFFECTS: displays a list of commands that can be used in the main menu
+     */
+    @SuppressWarnings("methodlength") // use approved by TA Bruce 
     public void processMenuCommands(String input) {
         printDivider();
         switch (input) {
             case "n":
                 createNewLungProfile();
+                outputScalarMetrics(currentLungProfile);
+                saveOrMakeNewLungProfile();
                 break;
             case "v":
                 showAllLungProfileLabels();
                 break;
             case "c":
                 selectLungProfileToView();
-                break;
-            case "m":
-                modifyLungProfile();
                 break;
             case "d":
                 deleteLungProfile();
@@ -96,11 +105,10 @@ public class LungSimulatorApp {
 
     /*
      * EFFECTS: displays all the lung profiles labels in the list
-     * Informs the user if the list is empty
+     * Informs the user if the list is empty and goes back to main menu
      */
     public void showAllLungProfileLabels() {
-        if (this.lpManager.getLungProfiles().isEmpty()) {
-            System.out.println("Error: There are no lung profiles in the list. Try adding a lung profile first!");
+        if (printMsgIfLungProfileListEmpty()) {
             return;
         }
         for (LungProfile lp : lpManager.getLungProfiles()) {
@@ -109,11 +117,27 @@ public class LungSimulatorApp {
     }
 
     /*
+     * EFFECTS: returns true and prints an informative message if the lung profile list is empty
+     */
+    private boolean printMsgIfLungProfileListEmpty() {
+        if (this.lpManager.getLungProfiles().isEmpty()) {
+            System.out.println("Error: There are no lung profiles in the list. Try adding a lung profile first!");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /*
      * EFFECTS: looks up a lung profile by user supplied label and processes the
      * output using action or
-     * informs the user if profile not found
+     * Informs the user if profile not found and goes back to the main menu
      */
     private void findAndProcessLungProfile(Consumer<LungProfile> action) {
+        if (printMsgIfLungProfileListEmpty()) {
+            return;
+        }
+
         String input = requestLungProfileLabel();
 
         Optional<LungProfile> result = lpManager.findLungProfile(input);
@@ -126,7 +150,6 @@ public class LungSimulatorApp {
      * EFFECTS: allows a user to select a lung profile by label from the list
      * Informs user if label is not in the list and goes back to main menu
      */
-    // XXX: need more help understanding this syntax
     public void selectLungProfileToView() {
         findAndProcessLungProfile(this::summarizeLungCharacteristics);
     }
@@ -142,18 +165,19 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: prints formatted string with all lung characteristics
+     * EFFECTS: prints formatted string with all characteristics for
+     * the supplied lung profile
      */
     public void summarizeLungCharacteristics(LungProfile lp) {
         System.out.println(String.format(
-                "Lung Profile: %s\n" 
-                + "Height: %.1f %s\n" 
-                + "Sex: %s\n" 
-                + "Tidal Volume: %d %s\n" 
-                + "Respiratory Rate: %d %s\n" 
-                + "Compliance: %d %s\n" 
-                + "Resistance: %.2f %s\n" 
-                + "Ideal Body Weight: %.1f %s",
+                "Lung Profile: %s\n"
+                        + "Height: %.1f %s\n"
+                        + "Sex: %s\n"
+                        + "Tidal Volume: %d %s\n"
+                        + "Respiratory Rate: %d %s\n"
+                        + "Compliance: %d %s\n"
+                        + "Resistance: %.2f %s\n"
+                        + "Ideal Body Weight: %.1f %s",
                 lp.getLabel(),
                 lp.getHeight(), LungProfile.heightUnits,
                 lp.getSex(),
@@ -162,6 +186,7 @@ public class LungSimulatorApp {
                 lp.getCompliance(), LungProfile.complianceUnits,
                 lp.getResistance(), LungProfile.resistanceUnits,
                 lp.getIBW(), LungProfile.idealBWUnits));
+        System.out.println(summarizeScalarTimeMetrics(lp.getVolumeTimeScalar()));
     }
 
     /*
@@ -172,32 +197,31 @@ public class LungSimulatorApp {
      */
     public void deleteLungProfile() {
         findAndProcessLungProfile(lp -> {
+            String label = lp.getLabel();
             boolean success = lpManager.deleteLungProfile(lp);
             if (!success) {
                 System.out.println("Failed to delete lung profile.");
+                return;
             }
+            System.out.println("The lung profile with label " + label + " was deleted.");
         });
     }
 
     /*
      * MODIFIES: this
-     * EFFECTS: allows the user to provide new parameters for the lung profile with
-     * the supplied label
-     * Informs user if label is not in the list and goes back to the main menu
+     * EFFECTS: adds the current lung profile to the list of lung profiles
      */
-    public void modifyLungProfile() {
-        // TODO
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds the current lung profile to the list of lung profiles
     public void addLungProfileToList() {
         lpManager.addLungProfile(currentLungProfile);
         System.out.println("The lung profile \"" + currentLungProfile.getLabel() + "\" was added to the list!");
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates a new lung profile and outputs scalar metrics
+    /*
+     * REQUIRES: requires numbers for height, compliance, resistance, respiratory rate, and tidal
+     * volume questions
+     * MODIFIES: this
+     * EFFECTS: creates a new lung profile using user's input
+     */
     public void createNewLungProfile() {
         System.out.println("Enter a label for this lung profile:");
         String label = this.scanner.nextLine();
@@ -225,12 +249,16 @@ public class LungSimulatorApp {
         int tidalVolume = this.scanner.nextInt();
         this.scanner.nextLine();
 
-        // XXX probably need a handler right here to ensure input was correct
         this.currentLungProfile = new LungProfile(label, height, sex, tidalVolume, respRate, compliance, resistance);
 
-        System.out.println(summarizeScalarTimeMetrics(currentLungProfile.getVolumeTimeScalar()));
         System.out.println();
-        saveOrMakeNewLungProfile();
+    }
+
+    /*
+     * EFFECTS: outputs scalar metrics for the supplied lung profile
+     */
+    private void outputScalarMetrics(LungProfile lp) {
+        System.out.println(summarizeScalarTimeMetrics(currentLungProfile.getVolumeTimeScalar()));
     }
 
     /*
@@ -238,11 +266,11 @@ public class LungSimulatorApp {
      */
     protected String summarizeScalarTimeMetrics(ScalarTime st) {
         return String.format(
-                "%nThe %s-time waveform has:%n" 
-                + "Amplitude: %s %s%n" 
-                + "Maximum: %s %s%n" 
-                + "Minimum: %s %s%n"
-                + "Breath Cycle Time: %s s",
+                "%nThe %s-time waveform has:%n"
+                        + "Amplitude: %s %s%n"
+                        + "Maximum: %s %s%n"
+                        + "Minimum: %s %s%n"
+                        + "Breath Cycle Time: %s s",
                 st.getScalarName(),
                 st.calculateAmplitude(), st.getUnits(),
                 st.calculateMaximumScalarValue(), st.getUnits(),
@@ -251,7 +279,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: displays a list of commands that can be used in the main menu
+     * EFFECTS: asks the user whether they would like to save the current lung profile 
+     * or make a new one; commands can be used in the main menu
      */
     public void saveOrMakeNewLungProfile() {
         System.out.println("Would you like to save this lung profile or make a new one?");

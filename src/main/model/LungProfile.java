@@ -29,7 +29,7 @@ public class LungProfile {
 
     /*
      * EFFECTS: constructs a new lung profile with a label, height (cm), biological
-     * sex,
+     * sex, tidal volume (mls), respiratory rate (breaths/min),
      * compliance (ml/cmH2O), and resistance (cmH20/L/s)
      * Also sets ideal body weight (kg)
      */
@@ -50,8 +50,6 @@ public class LungProfile {
     public LungProfile(float height, String sex, int tv, int rr, int compliance, float resistance) {
         this(null, height, sex, tv, rr, compliance, resistance);
     }
-
-    // getters
 
     public String getLabel() {
         return this.label;
@@ -85,16 +83,35 @@ public class LungProfile {
         return this.idealBodyWeight;
     }
 
+    public void setTidalVolume(int tv) {
+        this.tidalVolume = tv;
+    }
+
+    public void setRespRate(int rr) {
+        this.respRate = rr;
+    }
+
+    public void setCompliance(int compliance) {
+        this.compliance = compliance;
+    }
+
+    public void setResistance(float resistance) {
+        this.resistance = resistance;
+    }
+
+    private void setIBW(float idealBW) {
+        this.idealBodyWeight = idealBW;
+    }
+
     /*
-     * EFFECTS: creates and returns a new VolumeTimeScalar for this 
+     * EFFECTS: creates and returns a new VolumeTimeScalar for this lung profile
      */
     public VolumeTimeScalar getVolumeTimeScalar() {
         return new VolumeTimeScalar(tidalVolume, respRate, compliance, resistance);
     }
 
-    // setters & mutators
-
     /*
+     * MODIFIES: this
      * EFFECTS: sets optional label for this lung profile
      */
     public void setLabel(String label) {
@@ -117,33 +134,10 @@ public class LungProfile {
         setIBW(calculateIBW(this.height, this.sex));
     }
 
-    public void setTidalVolume(int tv) {
-        this.tidalVolume = tv;
-    }
-
-    public void setRespRate(int rr) {
-        this.respRate = rr;
-    }
-
-    public void setCompliance(int compliance) {
-        this.compliance = compliance;
-    }
-
-    public void setResistance(float resistance) {
-        this.resistance = resistance;
-    }
-
-    private void setIBW(float idealBW) {
-        this.idealBodyWeight = idealBW;
-    }
-
-    // helpers
-
     /*
      * EFFECTS: uses the height and sex to calcuate the Ideal Body Weight using the
      * Devine formula
      * If height < 152.4cm, will return IBW for a 152.4cm person
-     * XXX don't really want a default block but can't get full code coverage o/w
      */
     public float calculateIBW(float height, Sex sex) {
         switch (sex) {
