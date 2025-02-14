@@ -10,11 +10,14 @@ public abstract class ScalarTime {
     protected int compliance;
     protected float resistance;
 
+    
+
     /*
      * EFFECTS: constructs a new ScalarTime with supplied tidal volume (ml),
      * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), resistance
      * (cmH20/L/s)
      */
+    // FIXME: change constructor so it can just take a lung profile? to simplify?
     protected ScalarTime(int tidalVolume, int respRate, int compliance, float resistance) {
         this.tidalVolume = tidalVolume;
         this.respRate = respRate;
@@ -26,7 +29,7 @@ public abstract class ScalarTime {
      * EFFECTS: calculates the amplitude of the waveform modelling the breathing
      * cycle
      */
-    protected abstract float calculateAmplitude();
+    public abstract float calculateAmplitude();
 
     /*
      * EFFECTS: returns 2pi / total breath cycle time
@@ -54,20 +57,21 @@ public abstract class ScalarTime {
      * Output units determined by subclasses
      */
     protected float calculateScalarValueAtTimeInSeconds(float time) {
-        return (float) (-1 * calculateAmplitude() * Math.cos(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
+        return (float) (-1 * calculateAmplitude()
+                * Math.cos(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
     }
 
     /*
      * EFFECTS: calculates and returns the maximum value of the scalar-time function
      */
-    protected float calculateMaximumScalarValue() {
+    public float calculateMaximumScalarValue() {
         return Math.abs(calculateAmplitude()) + calculateVertShift();
     }
 
     /*
      * EFFECTS: calculates and returns the minimum value of the scalar-time function
      */
-    protected float calculateMinimumScalarValue() {
+    public float calculateMinimumScalarValue() {
         return calculateVertShift() - Math.abs(calculateAmplitude());
     }
 
@@ -77,10 +81,15 @@ public abstract class ScalarTime {
      * take resp rate, which is in breaths per minute
      * breaths/min = breaths / 60s
      */
-    protected float calculateBreathCycleTime() {
+    public float calculateBreathCycleTime() {
         return 60.0f / this.getRespRate();
     }
 
+    public abstract String getUnits();
+
+    public abstract String getScalarName();
+
+    // XXX I don't think I need any of these... this comes from the lung profile
     protected int getTidalVolume() {
         return tidalVolume;
     }

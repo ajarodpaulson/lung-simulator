@@ -8,26 +8,29 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VolumeTimeScalarTest extends ScalarTimeTest {
 
     @Override
-    protected ScalarTime createScalarTimeInstance(int tidalVolume, int respRate, int compliance, float resistance) {
+    protected VolumeTimeScalar createScalarTimeInstance(int tidalVolume, int respRate, int compliance, float resistance) {
         return new VolumeTimeScalar(tidalVolume, respRate, compliance, resistance);
     }
 
+    @Test
     @Override
     void testAmplitude() {
-        assertEquals(300, st1.calculateAmplitude());
-        assertEquals(450, st2.calculateAmplitude());
+        assertEquals(150, st1.calculateAmplitude());
+        assertEquals(450 / 2, st2.calculateAmplitude());
     }
 
+    @Test
     @Override
     void testPhaseShift() {
         assertEquals(0, st1.calculatePhaseShift());
         assertEquals(0, st2.calculatePhaseShift());
     }
 
+    @Test
     @Override
     void testVertShift() {
-        assertEquals(0, st1.calculateVertShift());
-        assertEquals(0, st2.calculateVertShift());
+        assertEquals(150, st1.calculateVertShift());
+        assertEquals(450 / 2, st2.calculateVertShift());
     }
 
     @Test
@@ -50,6 +53,18 @@ public class VolumeTimeScalarTest extends ScalarTimeTest {
     @Override
     void testCalculateMinimumScalarValue() {
         assertEquals(0, st1.calculateMinimumScalarValue(), TOL);
+    }
+
+    @Test
+    @Override
+    void testGetUnits() {
+        assertEquals("mls", st1.getUnits());
+    }
+
+    @Test
+    @Override
+    void testGetScalarName() {
+       assertEquals("volume", st1.getScalarName());
     }
 
 }

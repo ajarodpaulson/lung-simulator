@@ -6,24 +6,24 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LungProfileListTest extends TestLungProfiles {
-    LungProfileList lungProfileList0Long;
-    LungProfileList lungProfileList1Long;
-    LungProfileList lungProfileList2Long;
-    LungProfileList lungProfileList3Long;
+    LungProfileManager lungProfileList0Long;
+    LungProfileManager lungProfileList1Long;
+    LungProfileManager lungProfileList2Long;
+    LungProfileManager lungProfileList3Long;
 
     @BeforeEach 
     void runBefore() {
 
-        lungProfileList0Long = new LungProfileList();
+        lungProfileList0Long = new LungProfileManager();
         
-        lungProfileList1Long = new LungProfileList();
+        lungProfileList1Long = new LungProfileManager();
         lungProfileList1Long.addLungProfile(lp1);
 
-        lungProfileList2Long = new LungProfileList();
+        lungProfileList2Long = new LungProfileManager();
         lungProfileList2Long.addLungProfile(lp1);
         lungProfileList2Long.addLungProfile(lp2);
 
-        lungProfileList3Long = new LungProfileList();
+        lungProfileList3Long = new LungProfileManager();
         lungProfileList3Long.addLungProfile(lp2);
         lungProfileList3Long.addLungProfile(lp1);
         lungProfileList3Long.addLungProfile(lp3);
@@ -40,28 +40,28 @@ public class LungProfileListTest extends TestLungProfiles {
      * not in list       position of supplied label (beginning and end)
      */
     @Test
-    void testSelectLungProfile1LongFound() {
-        assertEquals(lp1, lungProfileList1Long.selectLungProfile("COPD").get());
+    void testFindLungProfile1LongFound() {
+        assertEquals(lp1, lungProfileList1Long.findLungProfile("COPD").get());
     }
 
     @Test
-    void testSelectLungProfile1LongNotFound() {
-        assertFalse(lungProfileList1Long.selectLungProfile("Fibrosis").isPresent());
+    void testFindLungProfile1LongNotFound() {
+        assertFalse(lungProfileList1Long.findLungProfile("Fibrosis").isPresent());
     }
 
     @Test
-    void testSelectLungProfile2LongFoundAtStartIndex() {
-        assertEquals(lp1, lungProfileList2Long.selectLungProfile("COPD").get());
+    void testFindLungProfile2LongFoundAtStartIndex() {
+        assertEquals(lp1, lungProfileList2Long.findLungProfile("COPD").get());
     }
 
     @Test 
-    void testSelectLungProfile2LongFoundAtEndIndex() {
-        assertEquals(lp2, lungProfileList2Long.selectLungProfile("Asthma").get());
+    void testFindLungProfile2LongFoundAtEndIndex() {
+        assertEquals(lp2, lungProfileList2Long.findLungProfile("Asthma").get());
     }
 
     @Test 
-    void testSelectLungProfile2LongNotFound() {
-        assertFalse(lungProfileList2Long.selectLungProfile("Daenerys Targaryen").isPresent());
+    void testFindLungProfile2LongNotFound() {
+        assertFalse(lungProfileList2Long.findLungProfile("Daenerys Targaryen").isPresent());
     }
 
     @Test
@@ -83,23 +83,35 @@ public class LungProfileListTest extends TestLungProfiles {
     }
 
     @Test 
-    void deleteLungProfile1Long() {
-        lungProfileList1Long.deleteLungProfile(lp1.getLabel());
+    void deleteLungProfile1LongInList() {
+        assertTrue(lungProfileList1Long.deleteLungProfile(lp1));
         assertTrue(lungProfileList1Long.getLungProfiles().isEmpty());
+    }
+
+    @Test 
+    void deleteLungProfile1LongNotInList() {
+        assertFalse(lungProfileList1Long.deleteLungProfile(lp2));
+        assertEquals(1, lungProfileList1Long.getLungProfiles().size());
     }
 
     @Test
     void deleteLungProfile2LongAtStartIndex() {
-        lungProfileList2Long.deleteLungProfile(lp1.getLabel());
+        assertTrue(lungProfileList2Long.deleteLungProfile(lp1));
         assertEquals(1, lungProfileList2Long.getLungProfiles().size());
         assertFalse(lungProfileList2Long.getLungProfiles().contains(lp1));
     }
 
     @Test
     void deleteLungProfile2LongAtEndIndex() {
-        lungProfileList2Long.deleteLungProfile(lp2.getLabel());
+        assertTrue(lungProfileList2Long.deleteLungProfile(lp2));
         assertEquals(1, lungProfileList2Long.getLungProfiles().size());
         assertFalse(lungProfileList2Long.getLungProfiles().contains(lp2));
+    }
+
+    @Test
+    void deleteLungProfile2LongNotInList() {
+        assertFalse(lungProfileList2Long.deleteLungProfile(lp3));
+        assertEquals(2, lungProfileList2Long.getLungProfiles().size());
     }
 
 

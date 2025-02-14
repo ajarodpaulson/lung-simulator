@@ -46,6 +46,10 @@ public abstract class ScalarTimeTest {
         assertEquals(0.8f, st1.getResistance(), TOL);
     }
 
+    abstract void testGetUnits();
+
+    abstract void testGetScalarName();
+
     /*
      * XXX is this a reasonable thing to do? can't think of edge cases or anything,
      * but do want to enforce that

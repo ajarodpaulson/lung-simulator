@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class LungProfileTest extends TestLungProfiles {
 
     static float TOL = 0.1f;
-    
+
     @BeforeEach
     void runBefore() {
 
@@ -58,52 +57,54 @@ public class LungProfileTest extends TestLungProfiles {
         assertEquals((50 + 0.91 * (192.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
-    // XXX REMOVE AFTER
-    /*
-     * Why does this work even though above I've change it to "My Lung Profile"
-     */
+    // XXX can implement an equals method later for the LungProfile class
     @Test
-    void testValueOfLP1() {
-        assertEquals("COPD", lp1.getLabel());
+    void testGetVolumeTimeScalar(){
+        VolumeTimeScalar vtScalar1 = new VolumeTimeScalar(lp1.getTidalVolume(), lp1.getRespRate(), lp1.getCompliance(), lp1.getResistance());
+        VolumeTimeScalar vtScalar2 =  lp1.getVolumeTimeScalar();
+        assertEquals(vtScalar1.calculateAmplitude(), vtScalar2.calculateAmplitude());
+        assertEquals(vtScalar1.calculateBreathCycleTime(), vtScalar2.calculateBreathCycleTime());
+        assertEquals(vtScalar1.calculateMaximumScalarValue(), vtScalar2.calculateMaximumScalarValue());
+        assertEquals(vtScalar1.calculateMinimumScalarValue(), vtScalar2.calculateMinimumScalarValue());
     }
 
     @Test
-    void testCalculateIBWFemale() {
+    void testCalculateIdealBWFemale() {
         assertEquals((45.5 + 0.91 * (158.0f - 152.4f)), lp1.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWMale() {
+    void testCalculateIdealBWMale() {
         assertEquals((50 + 0.91 * (180.0f - 152.4f)), lp2.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWMaleBelowBoundary() {
+    void testCalculateIdealBWMaleBelowBoundary() {
         assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp3.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWMaleOnBoundary() {
+    void testCalculateIdealBWMaleOnBoundary() {
         assertEquals((50 + 0.91 * (152.4f - 152.4f)), lp4.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWMaleAboveBoundary() {
+    void testCalculateIdealBWMaleAboveBoundary() {
         assertEquals((50 + 0.91 * (152.5f - 152.4f)), lp5.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWFemaleBelowBoundary() {
+    void testCalculateIdealBWFemaleBelowBoundary() {
         assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp6.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWFemaleOnBoundary() {
+    void testCalculateIdealBWFemaleOnBoundary() {
         assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp7.getIBW(), TOL);
     }
 
     @Test
-    void testCalculateIBWFemaleAboveBoundary() {
+    void testCalculateIdealBWFemaleAboveBoundary() {
         assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp8.getIBW(), TOL);
     }
 }
