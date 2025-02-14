@@ -1,5 +1,9 @@
 package model;
 
+/*
+ * Represents the metrics for the flow versus time ventilator scalar which is 
+ * derivable from the tidal volume, respiratory rate, respiratory system compliance, and lung resistance.
+ */
 public class FlowTimeScalar extends ScalarTime {
 
     protected FlowTimeScalar(int tidalVolume, int respRate, int compliance, float resistance) {
