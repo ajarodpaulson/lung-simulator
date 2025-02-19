@@ -1,5 +1,7 @@
 package model;
 
+import model.exception.InvalidArgumentException;
+
 /* 
 * Represents a simplified adult lung profile with an optional label, height (cm), biological sex,
 * tidal volume (ml), respiratory rate (breaths/min), compliance (ml/cmH2O), resistance (cmH20/L/s),
@@ -14,7 +16,7 @@ public class LungProfile {
     private int respRate;
     private int compliance;
     private float resistance;
-    private float idealBodyWeight;
+    private float idealBodyWeight; // TODO remove this field
 
     public static final String heightUnits = "cm";
     public static final String tidalVolumeUnits = "mls";
@@ -32,10 +34,10 @@ public class LungProfile {
      * sex, tidal volume, respiratory rate, compliance, and resistance
      * Also sets ideal body weight (kg)
      */
-    public LungProfile(String label, float height, String sex, int tv, int rr, int compliance, float resistance) {
+    public LungProfile(String label, float height, Sex sex, int tv, int rr, int compliance, float resistance) {
         this.label = label;
         this.height = height;
-        this.sex = sex.equals("M") ? Sex.MALE : Sex.FEMALE;
+        this.sex = sex;
         this.tidalVolume = tv;
         this.respRate = rr;
         this.compliance = compliance;
@@ -46,7 +48,7 @@ public class LungProfile {
     /*
      * EFFECTS: constructs a new lung profile without a label
      */
-    public LungProfile(float height, String sex, int tv, int rr, int compliance, float resistance) {
+    public LungProfile(float height, Sex sex, int tv, int rr, int compliance, float resistance) {
         this(null, height, sex, tv, rr, compliance, resistance);
     }
 
@@ -141,11 +143,13 @@ public class LungProfile {
     }
 
     /*
-     * EFFECTS: uses the height and sex to calcuate the Ideal Body Weight using the
-     * Devine formula
+     * EFFECTS: uses the height and sex to calcuate and return the Ideal Body Weight
+     * using the Devine formula
      * If height < 152.4cm, will return IBW for a 152.4cm person
+     * Throws IllegalArgumentException if sex is invalid
+     * XXX TESTME
      */
-    public float calculateIBW(float height, Sex sex) {
+    public float calculateIBW(float height, Sex sex) throws IllegalArgumentException {
         switch (sex) {
             case MALE:
                 if (height <= 152.4) {
@@ -153,11 +157,23 @@ public class LungProfile {
                 }
                 return (50.0f + 0.91f * (height - 152.4f));
 
-            default:
+            case FEMALE:
                 if (height <= 152.4) {
                     return (45.5f + 0.91f * (152.4f - 152.4f));
                 }
                 return (45.5f + 0.91f * (height - 152.4f));
         }
+        throw new IllegalArgumentException();
+    }
+
+    /*
+     * EFFECTS: converts non-case sensitive "M" or "F" to corresponding Sex enum value
+     * Throws IllegalArgumentException if sex is not an "M" or an "F"
+     * XXX does this method belong here? it seems like a lung profile shouldn't contain such a behaviour...
+     * but where would i put it?
+     */
+    public static Sex convertSexStringToSexEnum(String sex) throws InvalidArgumentException {
+        // TODO
+        return Sex.MALE;
     }
 }
