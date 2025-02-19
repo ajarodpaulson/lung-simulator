@@ -1,6 +1,10 @@
 package model;
 
 import org.junit.jupiter.api.Test;
+
+import model.LungProfile.Sex;
+import model.exception.InvalidArgumentException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LungProfileTest extends TestLungProfiles {
@@ -110,5 +114,51 @@ public class LungProfileTest extends TestLungProfiles {
     @Test
     void testCalculateIdealBWFemaleAboveBoundary() {
         assertEquals((45.5 + 0.91 * (152.4f - 152.4f)), lp8.getIBW(), TOL);
+    }
+
+    @Test
+    void testConvertSexStringToSexEnumGivenLowerCaseMShouldReturnMaleEnumField() {
+        try {
+            assertEquals(Sex.MALE, LungProfile.convertSexStringToSexEnum("m"));
+        } catch (InvalidArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testConvertSexStringToSexEnumGivenUpperCaseMShouldReturnMaleEnumField() {
+        try {
+            assertEquals(Sex.MALE, LungProfile.convertSexStringToSexEnum("M"));
+        } catch (InvalidArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testConvertSexStringToSexEnumGivenUpperCaseFShouldReturnFemaleEnumField() {
+        try {
+            assertEquals(Sex.FEMALE, LungProfile.convertSexStringToSexEnum("F"));
+        } catch (InvalidArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testConvertSexStringToSexEnumGivenLowerCaseFShouldReturnFemaleEnumField() {
+        try {
+            assertEquals(Sex.FEMALE, LungProfile.convertSexStringToSexEnum("f"));
+        } catch (InvalidArgumentException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void testConvertSexStringToSexEnumGivenIllegalStringShouldThrowIllegalArgumentException() {
+        try {
+            LungProfile.convertSexStringToSexEnum("x");
+            fail();
+        } catch (InvalidArgumentException e) {
+            // expected
+        }
     }
 }
