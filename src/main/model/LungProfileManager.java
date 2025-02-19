@@ -4,25 +4,50 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 /*
  * Represents a collection of lung profiles and functionality for managing them
+ * 
+ * Code Reference(s): CPSC 210 JsonSerializationDemo 
+ * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  * 
  * CLASS INVARIANT(S):
  * Labels in lpList must be unique
  */
-public class LungProfileManager {
+public class LungProfileManager implements Writable {
 
     private List<LungProfile> lpList;
+    private String name;
 
     /*
      * Constructs new LungProfileManager with empty list
      */
-    public LungProfileManager() {
+    public LungProfileManager(String name) {
         lpList = new ArrayList<>();
+        this.name = name;
     }
 
     public List<LungProfile> getLungProfiles() {
         return this.lpList;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /*
+     * EFFECTS: returns the number of lung profiles in lpList
+     */
+    public int numLungProfiles() {
+        // TODO
+        return 0;
     }
 
     /*
@@ -55,5 +80,11 @@ public class LungProfileManager {
      */
     public boolean deleteLungProfile(LungProfile lp) {
         return lpList.remove(lp);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toJson'");
     }
 }
