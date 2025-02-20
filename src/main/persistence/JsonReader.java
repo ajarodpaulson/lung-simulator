@@ -35,7 +35,7 @@ public class JsonReader {
     /* EFFECTS: reads lpm from file and returns it;
      * throws IOException if an error occurs reading data from file
      */
-    public LungProfileManager read() throws IOException, InvalidArgumentException {
+    public LungProfileManager read() throws IOException  {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseJsonObject(jsonObject);
@@ -54,7 +54,7 @@ public class JsonReader {
     }
 
     // EFFECTS: parses LungProfileManager from JSON object and returns it
-    private LungProfileManager parseJsonObject(JSONObject jsonObject) throws InvalidArgumentException {
+    private LungProfileManager parseJsonObject(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         LungProfileManager lpm = new LungProfileManager(name);
         addLungProfiles(lpm, jsonObject);
@@ -63,7 +63,7 @@ public class JsonReader {
 
     // MODIFIES: lpm
     // EFFECTS: parses lung profiles from JSON object and adds them to lpm
-    private void addLungProfiles(LungProfileManager lpm, JSONObject jsonObject) throws InvalidArgumentException {
+    private void addLungProfiles(LungProfileManager lpm, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("lpList");
         for (Object json : jsonArray) {
             JSONObject nextLungProfile = (JSONObject) json;
@@ -73,10 +73,10 @@ public class JsonReader {
 
     // MODIFIES: lpm
     // EFFECTS: parses lung profile from JSON object and adds it to lpm
-    private void addLungProfile(LungProfileManager lpm, JSONObject jsonObject) throws InvalidArgumentException {
+    private void addLungProfile(LungProfileManager lpm, JSONObject jsonObject) {
         String label = jsonObject.getString("label");
         float height = jsonObject.getFloat("height");
-        Sex sex = LungProfile.convertSexStringToSexEnum(jsonObject.getString("sex"));
+        Sex sex = Sex.valueOf(jsonObject.getString("sex"));
         int tv = jsonObject.getInt("tv");
         int rr = jsonObject.getInt("rr");
         int compliance = jsonObject.getInt("compliance");

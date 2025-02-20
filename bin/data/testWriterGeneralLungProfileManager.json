@@ -1,0 +1,32 @@
+{
+    "name": "Jarod's Lung Profiles",
+    "lpList": [
+        {
+            "rr": 16,
+            "tv": 350,
+            "compliance": 100,
+            "sex": "FEMALE",
+            "label": "COPD",
+            "resistance": 1,
+            "height": 158
+        },
+        {
+            "rr": 10,
+            "tv": 450,
+            "compliance": 120,
+            "sex": "MALE",
+            "label": "Asthma",
+            "resistance": 2,
+            "height": 180
+        },
+        {
+            "rr": 18,
+            "tv": 300,
+            "compliance": 85,
+            "sex": "MALE",
+            "label": "Tuberculosis",
+            "resistance": 1.8,
+            "height": 152.3
+        }
+    ]
+}

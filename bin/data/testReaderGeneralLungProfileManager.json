@@ -3,7 +3,7 @@
         {
             "label": "COPD",
             "height": 158.0,
-            "sex": "F",
+            "sex": "FEMALE",
             "tv": 350,
             "rr": 16,
             "compliance": 100,
@@ -12,7 +12,7 @@
         {
             "label": "Asthma",
             "height": 180.0,
-            "sex": "M",
+            "sex": "MALE",
             "tv": 450,
             "rr": 10,
             "compliance": 120,
@@ -21,7 +21,7 @@
         {
             "label": "Tuberculosis",
             "height": 152.3,
-            "sex": "M",
+            "sex": "MALE",
             "tv": 300,
             "rr": 18,
             "compliance": 85,

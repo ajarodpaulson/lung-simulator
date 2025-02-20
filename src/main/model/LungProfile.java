@@ -1,13 +1,16 @@
 package model;
 
+import org.json.JSONObject;
+
 import model.exception.InvalidArgumentException;
+import persistence.Writable;
 
 /* 
 * Represents a simplified adult lung profile with an optional label, height (cm), biological sex,
 * tidal volume (ml), respiratory rate (breaths/min), compliance (ml/cmH2O), resistance (cmH20/L/s),
 * and ideal body weight (kg)
 */
-public class LungProfile {
+public class LungProfile implements Writable {
 
     private String label;
     private float height;
@@ -182,5 +185,22 @@ public class LungProfile {
         } else {
             throw new InvalidArgumentException(sex, "is not a valid argument for sex.");
         }
+    }
+
+    /*
+     * Code Reference(s): CPSC 210 JsonSerializationDemo 
+     * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+     */
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("label", label);
+        json.put("height", height);
+        json.put("sex", sex);
+        json.put("tv", tidalVolume);
+        json.put("rr", respRate);
+        json.put("compliance", compliance);
+        json.put("resistance", resistance);
+        return json;
     }
 }

@@ -43,13 +43,13 @@ class JsonWriterTest extends JsonTest {
             lpm = reader.read();
             assertEquals("My lung profile manager", lpm.getName());
             assertEquals(0, lpm.numLungProfiles());
-        } catch (IOException | InvalidArgumentException e) {
+        } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
     }
 
     @Test
-    void testWriterGivenGeneralWorkroom() {
+    void testWriterGivenGeneralLungProfileManagerShouldSucceed() {
         try {
             LungProfileManager lpm = new LungProfileManager("Jarod's Lung Profiles");
             lpm.addLungProfile(lp1);
@@ -63,14 +63,14 @@ class JsonWriterTest extends JsonTest {
             JsonReader reader = new JsonReader("src/main/data/testWriterGeneralLungProfileManager.json");
 
             lpm = reader.read();
-            assertEquals("My lung profile manager", lpm.getName());
+            assertEquals("Jarod's Lung Profiles", lpm.getName());
             List<LungProfile> lpList = lpm.getLungProfiles();
             assertEquals(3, lpList.size());
             checkLungProfile("COPD", 158.0f, Sex.FEMALE, 350, 16, 100, 1.0f, lpList.get(0));
             checkLungProfile("Asthma", 180.0f, Sex.MALE, 450, 10, 120, 2.0f, lpList.get(1));
             checkLungProfile("Tuberculosis", 152.3f, Sex.MALE, 300, 18, 85, 1.8f, lpList.get(2));
 
-        } catch (IOException | InvalidArgumentException e) {
+        } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }

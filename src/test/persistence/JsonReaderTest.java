@@ -23,7 +23,7 @@ class JsonReaderTest extends JsonTest {
         try {
             LungProfileManager lpm = reader.read();
             fail("IOException expected");
-        } catch (IOException | InvalidArgumentException e) {
+        } catch (IOException e) {
             // expected
         }
     }
@@ -35,7 +35,7 @@ class JsonReaderTest extends JsonTest {
             LungProfileManager lpm = reader.read();
             assertEquals("My lung profile manager", lpm.getName());
             assertEquals(0, lpm.numLungProfiles());
-        } catch (IOException | InvalidArgumentException e) {
+        } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }
@@ -52,7 +52,7 @@ class JsonReaderTest extends JsonTest {
             checkLungProfile("Asthma", 180.0f, Sex.MALE, 450, 10, 120, 2.0f, lpList.get(1));
             checkLungProfile("Tuberculosis", 152.3f, Sex.MALE, 300, 18, 85, 1.8f, lpList.get(2));
             
-        } catch (IOException | InvalidArgumentException e) {
+        } catch (IOException e) {
             fail("Couldn't read from file");
         }
     }
