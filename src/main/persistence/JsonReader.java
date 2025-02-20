@@ -9,6 +9,13 @@ import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import model.LungProfile;
+import model.LungProfile.Sex;
+import model.exception.InvalidArgumentException;
+import model.LungProfileManager;
+
+// XXX How would I make this entire class generic? Right now its coupled to LungProfileManager
+// XXX have i dealt with invalid argument exception correctly?
 /*
  * Represents a reader that reads JSON data stored in file
  * 
@@ -16,41 +23,65 @@ import org.json.JSONObject;
  * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
 public class JsonReader {
-    // EFFECTS: constructs reader to read from source file
+    private String source; 
+
+    /*
+     * EFFECTS: constructs reader to read from source file
+     */ 
     public JsonReader(String source) {
-        // TODO
+        this.source = source;
     }
 
-    // EFFECTS: reads writable object from file and returns it;
-    // throws IOException if an error occurs reading data from file
-    public Writable read() throws IOException {
-        // TODO
-        return null;
+    /* EFFECTS: reads lpm from file and returns it;
+     * throws IOException if an error occurs reading data from file
+     */
+    public LungProfileManager read() throws IOException, InvalidArgumentException {
+        String jsonData = readFile(source);
+        JSONObject jsonObject = new JSONObject(jsonData);
+        return parseJsonObject(jsonObject);
     }
 
-    // EFFECTS: reads source file as string and returns it
+    // XXX how does this work
+    /*
+     * EFFECTS: reads source file as string and returns it
+     */ 
     private String readFile(String source) throws IOException {
-        // TODO
-        return "";
+        StringBuilder contentBuilder = new StringBuilder();
+        try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
+            stream.forEach(s -> contentBuilder.append(s));
+        }
+        return contentBuilder.toString();
     }
 
-    // EFFECTS: parses writable object from JSON object and returns it
-    private Writable parseWorkRoom(JSONObject jsonObject) {
-        // TODO
-        return null;
+    // EFFECTS: parses LungProfileManager from JSON object and returns it
+    private LungProfileManager parseJsonObject(JSONObject jsonObject) throws InvalidArgumentException {
+        String name = jsonObject.getString("name");
+        LungProfileManager lpm = new LungProfileManager(name);
+        addLungProfiles(lpm, jsonObject);
+        return lpm;
     }
 
-    // MODIFIES: writeable
-    // EFFECTS: parses writable objects from JSON object and adds them to collection
-    // of writable objects
-    private void addWriteables(Writable writables, JSONObject jsonObject) {
-        // TODO
+    // MODIFIES: lpm
+    // EFFECTS: parses lung profiles from JSON object and adds them to lpm
+    private void addLungProfiles(LungProfileManager lpm, JSONObject jsonObject) throws InvalidArgumentException {
+        JSONArray jsonArray = jsonObject.getJSONArray("lpList");
+        for (Object json : jsonArray) {
+            JSONObject nextLungProfile = (JSONObject) json;
+            addLungProfile(lpm, nextLungProfile);
+        }
     }
 
-    // MODIFIES: writeable
-    // EFFECTS: parses writable object from JSON object and adds it to collection of
-    // writable objects
-    private void addWriteable(Writable writable, JSONObject jsonObject) {
-        // TODO
+    // MODIFIES: lpm
+    // EFFECTS: parses lung profile from JSON object and adds it to lpm
+    private void addLungProfile(LungProfileManager lpm, JSONObject jsonObject) throws InvalidArgumentException {
+        String label = jsonObject.getString("label");
+        float height = jsonObject.getFloat("height");
+        Sex sex = LungProfile.convertSexStringToSexEnum(jsonObject.getString("sex"));
+        int tv = jsonObject.getInt("tv");
+        int rr = jsonObject.getInt("rr");
+        int compliance = jsonObject.getInt("compliance");
+        float resistance = jsonObject.getFloat("resistance");
+        LungProfile lp = new LungProfile(label, height, sex, tv, rr, compliance, resistance);
+        lpm.addLungProfile(lp);
     }
 }

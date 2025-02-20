@@ -2,6 +2,7 @@ package persistence;
 
 import model.*;
 import model.LungProfile.Sex;
+import model.exception.InvalidArgumentException;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +21,9 @@ class JsonReaderTest extends JsonTest {
     void testReaderGivenNonExistentFileShouldThrowIOException() {
         JsonReader reader = new JsonReader("./data/noSuchFile.json");
         try {
-            LungProfileManager lpm = reader.read(LungProfileManager.class);
+            LungProfileManager lpm = reader.read();
             fail("IOException expected");
-        } catch (IOException e) {
+        } catch (IOException | InvalidArgumentException e) {
             // expected
         }
     }
@@ -31,10 +32,10 @@ class JsonReaderTest extends JsonTest {
     void testReaderEmptyWorkRoom() {
         JsonReader reader = new JsonReader("src/main/data/testReaderEmptyLungProfileManager.json");
         try {
-            LungProfileManager lpm = reader.read(LungProfileManager.class);
+            LungProfileManager lpm = reader.read();
             assertEquals("My lung profile manager", lpm.getName());
             assertEquals(0, lpm.numLungProfiles());
-        } catch (IOException e) {
+        } catch (IOException | InvalidArgumentException e) {
             fail("Couldn't read from file");
         }
     }
@@ -43,7 +44,7 @@ class JsonReaderTest extends JsonTest {
     void testReaderGeneralWorkRoom() {
         JsonReader reader = new JsonReader("src/main/data/testReaderGeneralLungProfileManager.json");
         try {
-            LungProfileManager lpm = reader.read(LungProfileManager.class);
+            LungProfileManager lpm = reader.read();
             assertEquals("My lung profile manager", lpm.getName());
             List<LungProfile> lpList = lpm.getLungProfiles();
             assertEquals(3, lpList.size());
@@ -51,7 +52,7 @@ class JsonReaderTest extends JsonTest {
             checkLungProfile("Asthma", 180.0f, Sex.MALE, 450, 10, 120, 2.0f, lpList.get(1));
             checkLungProfile("Tuberculosis", 152.3f, Sex.MALE, 300, 18, 85, 1.8f, lpList.get(2));
             
-        } catch (IOException e) {
+        } catch (IOException | InvalidArgumentException e) {
             fail("Couldn't read from file");
         }
     }

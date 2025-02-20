@@ -5,8 +5,10 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 import model.LungProfile;
+import model.LungProfile.Sex;
 import model.LungProfileManager;
 import model.ScalarTime;
+import model.exception.InvalidArgumentException;
 
 /*
  * A lung simulator application that allows users to configure a lung profile
@@ -41,7 +43,7 @@ public class LungSimulatorApp {
      * EFFECTS: initializes the application with the starting values
      */
     public void init() {
-        this.lpManager = new LungProfileManager();
+        this.lpManager = new LungProfileManager("Unnamed lpm");
         this.scanner = new Scanner(System.in);
         this.isProgramRunning = true;
     }
@@ -227,8 +229,16 @@ public class LungSimulatorApp {
         float height = this.scanner.nextFloat();
         this.scanner.nextLine();
 
+        // FIXME abstract into generic helper
         System.out.println("Enter M or F for the person's sex:");
-        String sex = this.scanner.nextLine();
+        Sex sex = null; 
+        while (sex == null) {
+            try {
+                sex =  LungProfile.convertSexStringToSexEnum(this.scanner.nextLine());
+            } catch (InvalidArgumentException e) {
+                System.out.println(e.getArg() + " is not a valid input. Please enter M or F.");
+            }
+        }
 
         System.out.println("Enter the lung compliance in " + LungProfile.complianceUnits + " (normal is 50-170):");
         int compliance = this.scanner.nextInt();
@@ -304,5 +314,13 @@ public class LungSimulatorApp {
     // EFFECTS: prints out a line of dashes to act as a divider
     private void printDivider() {
         System.out.println("------------------------------------");
+    }
+
+    /*
+     * EFFECTS: helper method that ensures input is valid, displays an informative message
+     * if it is not, and repeats until input is valid
+     */
+    private void askForValidInput() {
+
     }
 }

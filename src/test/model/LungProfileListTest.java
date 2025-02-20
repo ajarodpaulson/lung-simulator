@@ -14,16 +14,16 @@ public class LungProfileListTest extends TestLungProfiles {
     @BeforeEach
     void runBefore() {
 
-        lungProfileList0Long = new LungProfileManager();
+        lungProfileList0Long = new LungProfileManager("Unnamed");
 
-        lungProfileList1Long = new LungProfileManager();
+        lungProfileList1Long = new LungProfileManager("Jarod");
         lungProfileList1Long.addLungProfile(lp1);
 
-        lungProfileList2Long = new LungProfileManager();
+        lungProfileList2Long = new LungProfileManager("Ashley");
         lungProfileList2Long.addLungProfile(lp1);
         lungProfileList2Long.addLungProfile(lp2);
 
-        lungProfileList3Long = new LungProfileManager();
+        lungProfileList3Long = new LungProfileManager("Sven");
         lungProfileList3Long.addLungProfile(lp2);
         lungProfileList3Long.addLungProfile(lp1);
         lungProfileList3Long.addLungProfile(lp3);

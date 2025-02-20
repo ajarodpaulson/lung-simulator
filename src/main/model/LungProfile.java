@@ -171,9 +171,16 @@ public class LungProfile {
      * Throws IllegalArgumentException if sex is not an "M" or an "F"
      * XXX does this method belong here? it seems like a lung profile shouldn't contain such a behaviour...
      * but where would i put it?
+     * XXX also, tried to write this using "line of sight rule" but this was awkward because there isn't
+     * just a single case in the event that the argument is a valid one
      */
     public static Sex convertSexStringToSexEnum(String sex) throws InvalidArgumentException {
-        // TODO
-        return Sex.MALE;
+        if (sex.equalsIgnoreCase("m")) {
+            return Sex.MALE;
+        } else if (sex.equalsIgnoreCase("f")) {
+            return Sex.FEMALE;
+        } else {
+            throw new InvalidArgumentException(sex, "is not a valid argument for sex.");
+        }
     }
 }
