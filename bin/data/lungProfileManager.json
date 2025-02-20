@@ -1,0 +1,12 @@
+{
+    "name": "Unnamed lpm",
+    "lpList": [{
+        "rr": 1,
+        "tv": 10087,
+        "compliance": 698,
+        "sex": "MALE",
+        "label": "jarod",
+        "resistance": 0.1,
+        "height": 185
+    }]
+}

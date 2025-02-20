@@ -11,7 +11,6 @@ import org.json.JSONObject;
 
 import model.LungProfile;
 import model.LungProfile.Sex;
-import model.exception.InvalidArgumentException;
 import model.LungProfileManager;
 
 // XXX How would I make this entire class generic? Right now its coupled to LungProfileManager

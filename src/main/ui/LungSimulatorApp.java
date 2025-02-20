@@ -1,5 +1,7 @@
 package ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Consumer;
@@ -9,19 +11,24 @@ import model.LungProfile.Sex;
 import model.LungProfileManager;
 import model.ScalarTime;
 import model.exception.InvalidArgumentException;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 /*
  * A lung simulator application that allows users to configure a lung profile
  * and observe how key scalar metrics are influenced by key lung
  * parameters 
  * 
- * Code reference(s): CPSC210 Lab 4 (Flashcard Reviewer)
+ * Code reference(s): CPSC210 Lab 4 (Flashcard Reviewer), CPSC 210 JsonSerializationDemo 
  */
 public class LungSimulatorApp {
+    private static final String JSON_STORE = "src/main/data/lungProfileManager.json";
     private Scanner scanner;
     private boolean isProgramRunning;
     private LungProfileManager lpManager;
     private LungProfile currentLungProfile;
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
 
     /*
      * EFFECTS: creates an instance of the Lung Simulator console ui application
@@ -43,9 +50,11 @@ public class LungSimulatorApp {
      * EFFECTS: initializes the application with the starting values
      */
     public void init() {
-        this.lpManager = new LungProfileManager("Unnamed lpm");
+        this.lpManager = new LungProfileManager("list of lung profiles");
         this.scanner = new Scanner(System.in);
         this.isProgramRunning = true;
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     /*
@@ -63,9 +72,11 @@ public class LungSimulatorApp {
     public void displayMenu() {
         System.out.println("Please select an option:\n");
         System.out.println("n: Create a new lung profile");
-        System.out.println("v: View all lung profiles by label");
-        System.out.println("c: Choose a lung profile to view");
-        System.out.println("d: Delete a lung profile");
+        System.out.println("v: View all lung profiles in my list by label");
+        System.out.println("s: Save my list of lung profiles to file");
+        System.out.println("l: Load my list of lung profiles from file");
+        System.out.println("c: Choose a lung profile in my list to view");
+        System.out.println("d: Delete a lung profile from my list");
         System.out.println("q: Exit the application");
         printDivider();
     }
@@ -86,6 +97,12 @@ public class LungSimulatorApp {
             case "v":
                 showAllLungProfileLabels();
                 break;
+            case "s":
+                saveLungProfileManager();
+                break;
+            case "l":
+                loadLungProfileManager();
+                break;
             case "c":
                 selectLungProfileToView();
                 break;
@@ -102,8 +119,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: displays all the lung profiles labels in the list
-     * Informs the user if the list is empty and goes back to main menu
+     * EFFECTS: displays all the lung profiles labels in their list
+     * Informs the user if their list is empty and goes back to main menu
      */
     public void showAllLungProfileLabels() {
         if (printMsgIfLungProfileListEmpty()) {
@@ -120,7 +137,7 @@ public class LungSimulatorApp {
      */
     private boolean printMsgIfLungProfileListEmpty() {
         if (this.lpManager.getLungProfiles().isEmpty()) {
-            System.out.println("Error: There are no lung profiles in the list. Try adding a lung profile first!");
+            System.out.println("Error: There are no lung profiles in your list. Try adding a lung profile first!");
             return true;
         } else {
             return false;
@@ -146,8 +163,8 @@ public class LungSimulatorApp {
     }
 
     /*
-     * EFFECTS: allows a user to select a lung profile by label from the list
-     * Informs user if label is not in the list and goes back to main menu
+     * EFFECTS: allows a user to select a lung profile by label from their list
+     * Informs user if label is not in their list and goes back to main menu
      */
     public void selectLungProfileToView() {
         findAndProcessLungProfile(this::summarizeLungCharacteristics);
@@ -191,7 +208,7 @@ public class LungSimulatorApp {
     /*
      * MODIFIES: this
      * EFFECTS: deletes the lung profile with the supplied label
-     * Informs user if label is not in the list or if the lung profile
+     * Informs user if label is not in their list or if the lung profile
      * was not deleted and goes back to main menu
      */
     public void deleteLungProfile() {
@@ -208,11 +225,11 @@ public class LungSimulatorApp {
 
     /*
      * MODIFIES: this
-     * EFFECTS: adds the current lung profile to the list of lung profiles
+     * EFFECTS: adds the current lung profile to user's list of lung profiles
      */
     public void addLungProfileToList() {
         lpManager.addLungProfile(currentLungProfile);
-        System.out.println("The lung profile \"" + currentLungProfile.getLabel() + "\" was added to the list!");
+        System.out.println("The lung profile \"" + currentLungProfile.getLabel() + "\" was added to your list!");
     }
 
     /*
@@ -229,16 +246,9 @@ public class LungSimulatorApp {
         float height = this.scanner.nextFloat();
         this.scanner.nextLine();
 
-        // FIXME abstract into generic helper
         System.out.println("Enter M or F for the person's sex:");
-        Sex sex = null; 
-        while (sex == null) {
-            try {
-                sex =  LungProfile.convertSexStringToSexEnum(this.scanner.nextLine());
-            } catch (InvalidArgumentException e) {
-                System.out.println(e.getArg() + " is not a valid input. Please enter M or F.");
-            }
-        }
+        Sex sex = null;
+        sex = ensureValidInputForSex(sex, this.scanner);
 
         System.out.println("Enter the lung compliance in " + LungProfile.complianceUnits + " (normal is 50-170):");
         int compliance = this.scanner.nextInt();
@@ -257,6 +267,24 @@ public class LungSimulatorApp {
         this.scanner.nextLine();
 
         this.currentLungProfile = new LungProfile(label, height, sex, tidalVolume, respRate, compliance, resistance);
+    }
+
+    /*
+     * XXX is there not a better and generic way of doing this?
+     * MODIFIES: sex
+     * EFFECTS: attempts to convert input into Sex, throws InvalidArgumentException
+     * if
+     * this fails and informs the user; repeats until valid input provided
+     */
+    private Sex ensureValidInputForSex(Sex sex, Scanner scanner) {
+        while (sex == null) {
+            try {
+                sex = LungProfile.convertSexStringToSexEnum(scanner.nextLine());
+            } catch (InvalidArgumentException e) {
+                System.out.println(e.getArg() + " is not a valid input. Please enter M or F.");
+            }
+        }
+        return sex;
     }
 
     /*
@@ -287,12 +315,12 @@ public class LungSimulatorApp {
     /*
      * EFFECTS: asks the user whether they would like to add the lung profile they
      * created to
-     * the list or discard and go back to main menu
+     * their list or discard and go back to main menu
      */
     public void askUserAddLungProfileToList() {
-        System.out.println("Would you like to add this lung profile to the list?");
+        System.out.println("Would you like to add this lung profile to your list?");
         System.out.println();
-        System.out.println("a: Add lung profile to list");
+        System.out.println("a: Add lung profile to your list");
         System.out.println("b: Discard and go back to main menu");
         printDivider();
         String input = this.scanner.nextLine();
@@ -316,11 +344,26 @@ public class LungSimulatorApp {
         System.out.println("------------------------------------");
     }
 
-    /*
-     * EFFECTS: helper method that ensures input is valid, displays an informative message
-     * if it is not, and repeats until input is valid
-     */
-    private void askForValidInput() {
+    // EFFECTS: saves the user's list of lung profiles to file
+    private void saveLungProfileManager() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(lpManager);
+            jsonWriter.close();
+            System.out.println("Saved " + lpManager.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
 
+    // MODIFIES: this
+    // EFFECTS: loads user's list of lung profiles from file
+    private void loadLungProfileManager() {
+        try {
+            lpManager = jsonReader.read();
+            System.out.println("Loaded " + lpManager.getName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

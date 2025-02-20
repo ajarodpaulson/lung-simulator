@@ -2,8 +2,6 @@ package persistence;
 
 import model.*;
 import model.LungProfile.Sex;
-import model.exception.InvalidArgumentException;
-
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
