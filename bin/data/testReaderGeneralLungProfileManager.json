@@ -1,0 +1,32 @@
+{
+    "lpList": [
+        {
+            "label": "COPD",
+            "height": 158.0,
+            "sex": "F",
+            "tv": 350,
+            "rr": 16,
+            "compliance": 100,
+            "resistance": 1.0
+        },
+        {
+            "label": "Asthma",
+            "height": 180.0,
+            "sex": "M",
+            "tv": 450,
+            "rr": 10,
+            "compliance": 120,
+            "resistance": 2.0
+        },
+        {
+            "label": "Tuberculosis",
+            "height": 152.3,
+            "sex": "M",
+            "tv": 300,
+            "rr": 18,
+            "compliance": 85,
+            "resistance": 1.8
+        }
+    ],
+    "name": "My lung profile manager"
+}
