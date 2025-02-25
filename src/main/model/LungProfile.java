@@ -149,10 +149,8 @@ public class LungProfile implements Writable {
      * EFFECTS: uses the height and sex to calcuate and return the Ideal Body Weight
      * using the Devine formula
      * If height < 152.4cm, will return IBW for a 152.4cm person
-     * Throws IllegalArgumentException if sex is invalid
-     * XXX TESTME
      */
-    public float calculateIBW(float height, Sex sex) throws IllegalArgumentException {
+    public float calculateIBW(float height, Sex sex) {
         switch (sex) {
             case MALE:
                 if (height <= 152.4) {
@@ -160,13 +158,13 @@ public class LungProfile implements Writable {
                 }
                 return (50.0f + 0.91f * (height - 152.4f));
 
-            case FEMALE:
+            default:
                 if (height <= 152.4) {
                     return (45.5f + 0.91f * (152.4f - 152.4f));
                 }
                 return (45.5f + 0.91f * (height - 152.4f));
         }
-        throw new IllegalArgumentException();
+
     }
 
     /*

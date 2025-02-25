@@ -44,8 +44,7 @@ public class LungProfileManager implements Writable {
      * EFFECTS: returns the number of lung profiles in lpList
      */
     public int numLungProfiles() {
-        // TODO
-        return 0;
+        return lpList.size();
     }
 
     /*

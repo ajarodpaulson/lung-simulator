@@ -159,6 +159,7 @@ public class LungProfileTest extends TestLungProfiles {
             fail();
         } catch (InvalidArgumentException e) {
             // expected
+            assertEquals("x", e.getArg());
         }
     }
 }
