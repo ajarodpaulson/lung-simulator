@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import model.LungProfile;
 import model.LungProfile.Sex;
 import model.LungProfileManager;
-import model.exception.InvalidArgumentException;
-
 import java.io.IOException;
 import java.util.List;
 

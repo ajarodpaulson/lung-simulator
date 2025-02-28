@@ -270,11 +270,9 @@ public class LungSimulatorApp {
     }
 
     /*
-     * XXX is there not a better and generic way of doing this?
      * MODIFIES: sex
      * EFFECTS: attempts to convert input into Sex, throws InvalidArgumentException
-     * if
-     * this fails and informs the user; repeats until valid input provided
+     * if this fails and informs the user; repeats until valid input provided
      */
     private Sex ensureValidInputForSex(Sex sex, Scanner scanner) {
         while (sex == null) {
@@ -314,8 +312,7 @@ public class LungSimulatorApp {
 
     /*
      * EFFECTS: asks the user whether they would like to add the lung profile they
-     * created to
-     * their list or discard and go back to main menu
+     * created to their list or discard and go back to main menu
      */
     public void askUserAddLungProfileToList() {
         System.out.println("Would you like to add this lung profile to your list?");

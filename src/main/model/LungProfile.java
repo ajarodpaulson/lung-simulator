@@ -19,7 +19,7 @@ public class LungProfile implements Writable {
     private int respRate;
     private int compliance;
     private float resistance;
-    private float idealBodyWeight; // TODO remove this field
+    private float idealBodyWeight;
 
     public static final String heightUnits = "cm";
     public static final String tidalVolumeUnits = "mls";
@@ -170,10 +170,6 @@ public class LungProfile implements Writable {
     /*
      * EFFECTS: converts non-case sensitive "M" or "F" to corresponding Sex enum value
      * Throws IllegalArgumentException if sex is not an "M" or an "F"
-     * XXX does this method belong here? it seems like a lung profile shouldn't contain such a behaviour...
-     * but where would i put it?
-     * XXX also, tried to write this using "line of sight rule" but this was awkward because there isn't
-     * just a single case in the event that the argument is a valid one
      */
     public static Sex convertSexStringToSexEnum(String sex) throws InvalidArgumentException {
         if (sex.equalsIgnoreCase("m")) {

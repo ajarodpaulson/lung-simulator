@@ -17,7 +17,7 @@ I'm a respiratory therapist with a keen interest in respiratory physiology and m
 - As a user, I want to be able to add the lung profiles I've created to a list
 - As a user, I want to be able to view a lung profile from the list of profiles I've created
 - As a user, I want to be able to delete a lung profile from the list of profiles I've created
-- As a user, I want to be able to save the list of lung profiles I created to file and be reminded of such when I quit the application
+- As a user, I want to be able to save the list of lung profiles I created to file
 - As a user, I want to be able to load lung profiles I've saved from file
 - As a user, I want to have the option to continue where I left off when I quit the application
 - As a user, I want to be able to select from a list of pre-defined, common pathologies of the lung

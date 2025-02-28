@@ -13,8 +13,6 @@ import model.LungProfile;
 import model.LungProfile.Sex;
 import model.LungProfileManager;
 
-// XXX How would I make this entire class generic? Right now its coupled to LungProfileManager
-// XXX have i dealt with invalid argument exception correctly?
 /*
  * Represents a reader that reads JSON data stored in file
  * 
@@ -31,7 +29,8 @@ public class JsonReader {
         this.source = source;
     }
 
-    /* EFFECTS: reads lpm from file and returns it;
+    /* 
+     * EFFECTS: reads lpm from file and returns it;
      * throws IOException if an error occurs reading data from file
      */
     public LungProfileManager read() throws IOException  {
@@ -40,7 +39,6 @@ public class JsonReader {
         return parseJsonObject(jsonObject);
     }
 
-    // XXX how does this work
     /*
      * EFFECTS: reads source file as string and returns it
      */ 

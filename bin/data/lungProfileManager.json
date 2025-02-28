@@ -1,12 +1,23 @@
 {
-    "name": "Unnamed lpm",
-    "lpList": [{
-        "rr": 1,
-        "tv": 10087,
-        "compliance": 698,
-        "sex": "MALE",
-        "label": "jarod",
-        "resistance": 0.1,
-        "height": 185
-    }]
+    "name": "list of lung profiles",
+    "lpList": [
+        {
+            "rr": 16,
+            "tv": 500,
+            "compliance": 100,
+            "sex": "MALE",
+            "label": "hagkd",
+            "resistance": 1.8,
+            "height": 100
+        },
+        {
+            "rr": 18,
+            "tv": 451,
+            "compliance": 180,
+            "sex": "MALE",
+            "label": "agu",
+            "resistance": 1.5,
+            "height": 109
+        }
+    ]
 }
