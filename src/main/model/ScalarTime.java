@@ -7,7 +7,7 @@ package model;
 public abstract class ScalarTime {
     protected int tidalVolume;
     protected int respRate;
-    protected int compliance;
+    protected float compliance;
     protected float resistance;
 
     /*
@@ -16,10 +16,10 @@ public abstract class ScalarTime {
      * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), and resistance
      * (cmH20/L/s)
      */
-    protected ScalarTime(int tidalVolume, int respRate, int compliance, float resistance) {
+    protected ScalarTime(int tidalVolume, int respRate, float compliance2, float resistance) {
         this.tidalVolume = tidalVolume;
         this.respRate = respRate;
-        this.compliance = compliance;
+        this.compliance = compliance2;
         this.resistance = resistance;
     }
 
@@ -102,7 +102,7 @@ public abstract class ScalarTime {
         this.respRate = respRate;
     }
 
-    protected int getCompliance() {
+    protected float getCompliance() {
         return compliance;
     }
 

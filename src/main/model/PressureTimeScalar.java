@@ -7,38 +7,33 @@ package model;
  */
 public class PressureTimeScalar extends ScalarTime {
 
-    protected PressureTimeScalar(int tidalVolume, int respRate, int compliance, float resistance) {
+    protected PressureTimeScalar(int tidalVolume, int respRate, float compliance, float resistance) {
             super(tidalVolume, respRate, compliance, resistance);
         }
     
         @Override
     public String getUnits() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUnits'");
+        return "cmH2O";
     }
 
     @Override
     public String getScalarName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getScalarName'");
+        return "pressure";
     }
 
     @Override
     public float calculateAmplitude() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateAmplitude'");
+       return Math.abs(tidalVolume / compliance) / 2.0f;
     }
 
     @Override
     protected float calculatePhaseShift() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculatePhaseShift'");
+        return (calculateBreathCycleTime() / 4.0f);
     }
 
     @Override
     protected float calculateVertShift() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calculateVertShift'");
+        return calculateAmplitude();
     }
     
 }
