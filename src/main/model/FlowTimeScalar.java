@@ -22,14 +22,21 @@ public class FlowTimeScalar extends ScalarTime {
         return "flow";
     }
 
+    // XXX design decision...
+    @Override 
+    protected float calculateScalarValueAtTimeInSeconds(float time) {
+        return (float) (calculateAmplitude()
+                * Math.cos(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
+    }
+
     @Override
     public float calculateAmplitude() {
-        return (float) (this.tidalVolume * Math.PI / calculateBreathCycleTime());
+        return (float) (-1.0f * this.tidalVolume / 1000 * Math.PI / calculateBreathCycleTime());
     }
 
     @Override
     protected float calculatePhaseShift() {
-        return 0.0f;
+        return calculateBreathCycleTime() / 4.0f;
     }
 
     @Override

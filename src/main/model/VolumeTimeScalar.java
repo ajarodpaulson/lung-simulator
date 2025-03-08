@@ -36,4 +36,10 @@ public class VolumeTimeScalar extends ScalarTime {
     public String getScalarName() {
         return "volume";
     }
+
+    @Override
+    protected float calculateScalarValueAtTimeInSeconds(float time) {
+        return (float) (calculateAmplitude()
+                * Math.sin(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
+    }
 }

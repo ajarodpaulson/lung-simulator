@@ -16,18 +16,21 @@ public abstract class ScalarTime {
      * (resp)iratory rate (breaths/min), compliance (ml/cmH2O), and resistance
      * (cmH20/L/s)
      */
-    protected ScalarTime(int tidalVolume, int respRate, float compliance2, float resistance) {
+    protected ScalarTime(int tidalVolume, int respRate, float compliance, float resistance) {
         this.tidalVolume = tidalVolume;
         this.respRate = respRate;
-        this.compliance = compliance2;
+        this.compliance = compliance;
         this.resistance = resistance;
     }
 
-    /*
+    /**
      * EFFECTS: returns the units as a String for the extending class
      */
     public abstract String getUnits();
-
+    
+    /**
+     * EFFECTS: returns the scalar name as a String for the extending class
+     */
     public abstract String getScalarName();
 
     /*
@@ -60,10 +63,7 @@ public abstract class ScalarTime {
      * seconds
      * Output units are determined by subclasses
      */
-    protected float calculateScalarValueAtTimeInSeconds(float time) {
-        return (float) (calculateAmplitude()
-                * Math.sin(calculateConversionFactor() * (time - calculatePhaseShift())) + calculateVertShift());
-    }
+    protected abstract float calculateScalarValueAtTimeInSeconds(float time);
 
     /*
      * EFFECTS: calculates and returns the maximum value of the scalar-time function
