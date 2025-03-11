@@ -8,12 +8,15 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import model.LungProfileManager;
+
 /**
  * Code reference(s):
  * https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-ListDemoProject.zip
  */
 
 public class LungSimulatorGUIApp {
+    //public static final LungProfileManager lpManager;
     /**
      * EFFECTS: Create the GUI and show it. For thread safety,
      * this method should be invoked from the
@@ -26,8 +29,10 @@ public class LungSimulatorGUIApp {
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
 
+        //lpManager = 
+
         // Create and set up the left panel
-        JPanel leftPanel = new LungProfilesManagerPanel();
+        JPanel leftPanel = new LungProfileManagerPanel();
 
         // Create and set up the main panel
         JPanel mainPanel = new DisplayMetricsPanel();
