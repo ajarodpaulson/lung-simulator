@@ -21,7 +21,7 @@ import persistence.JsonWriter;
  * 
  * Code reference(s): CPSC210 Lab 4 (Flashcard Reviewer), CPSC 210 JsonSerializationDemo 
  */
-public class LungSimulatorApp {
+public class LungSimulatorConsoleApp {
     private static final String JSON_STORE = "src/main/data/lungProfileManager.json";
     private Scanner scanner;
     private boolean isProgramRunning;
@@ -33,7 +33,7 @@ public class LungSimulatorApp {
     /*
      * EFFECTS: creates an instance of the Lung Simulator console ui application
      */
-    public LungSimulatorApp() {
+    public LungSimulatorConsoleApp() {
         init();
 
         printDivider();
