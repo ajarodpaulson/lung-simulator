@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.LungProfileManager;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 /**
  * Code reference(s):
@@ -16,7 +18,11 @@ import model.LungProfileManager;
  */
 
 public class LungSimulatorGUIApp {
-    //public static final LungProfileManager lpManager;
+    private static final String JSON_STORE = "src/main/data/lungProfileManager.json";
+    public static LungProfileManager lpManager = new LungProfileManager("list of lung profiles");
+    private JsonReader jsonReader;
+    private JsonWriter jsonWriter;
+    
     /**
      * EFFECTS: Create the GUI and show it. For thread safety,
      * this method should be invoked from the
@@ -29,7 +35,8 @@ public class LungSimulatorGUIApp {
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
 
-        //lpManager = 
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
 
         // Create and set up the left panel
         JPanel leftPanel = new LungProfileManagerPanel();
