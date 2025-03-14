@@ -15,7 +15,7 @@ import persistence.Writable;
  * CLASS INVARIANT(S):
  * Labels in lpList must be unique
  */
-public class LungProfileManager implements Writable {
+public class LungProfileManager extends Observable implements Writable {
 
     private List<LungProfile> lpList;
     private String name;
@@ -104,5 +104,11 @@ public class LungProfileManager implements Writable {
         }
 
         return jsonArray;
+    }
+
+    @Override
+    public void notifyObservers() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
     }
 }

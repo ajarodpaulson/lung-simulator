@@ -13,13 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
 import model.LungProfile;
+import model.LungProfileManager;
 
 /**
  * Code reference(s): 
  */
 
 public class LungProfileManagerPanel extends JPanel {
-    public LungProfileManagerPanel() {
+    public LungProfileManagerPanel(LungProfileManager lpManager) {
         super();
         this.setBackground(Color.LIGHT_GRAY);
         setPreferredSize(new Dimension(200, 600)); // Set width, full height
@@ -30,7 +31,7 @@ public class LungProfileManagerPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Create and setup toolbar
-        JToolBar toolbar = new LungProfileManagerToolbar(workingList); // FIXME
+        JToolBar toolbar = new LungProfileManagerToolbar(lpManager); // FIXME
 
         // Add toolbar and scroll panel
         add(toolbar, BorderLayout.NORTH);

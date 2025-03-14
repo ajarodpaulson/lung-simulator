@@ -19,7 +19,8 @@ import persistence.JsonWriter;
 
 public class LungSimulatorGUIApp {
     private static final String JSON_STORE = "src/main/data/lungProfileManager.json";
-    public static LungProfileManager lpManager = new LungProfileManager("list of lung profiles");
+    //public static LungProfileManager lpManager = new LungProfileManager("list of lung profiles");
+    private static LungProfileManager lpManager;
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
     
@@ -29,6 +30,8 @@ public class LungSimulatorGUIApp {
      * event-dispatching thread.
      */
     public LungSimulatorGUIApp() {
+        lpManager = new LungProfileManager("New Lung Profile Manager");
+        
         // Create and set up the window.
         JFrame frame = new JFrame("Lung Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +42,7 @@ public class LungSimulatorGUIApp {
         jsonReader = new JsonReader(JSON_STORE);
 
         // Create and set up the left panel
-        JPanel leftPanel = new LungProfileManagerPanel();
+        JPanel leftPanel = new LungProfileManagerPanel(lpManager);
 
         // Create and set up the main panel
         JPanel mainPanel = new DisplayMetricsPanel();

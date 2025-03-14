@@ -10,6 +10,7 @@ import javax.swing.JToolBar;
 
 import model.LungProfile;
 import model.LungProfile.Sex;
+import model.LungProfileManager;
 
 /**
  * Code reference(s): https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-ToolBarDemo2Project.zip
@@ -19,13 +20,13 @@ public class LungProfileManagerToolbar extends JToolBar implements ActionListene
     static final private String NEW = "NEW";
     static final private String LOAD = "LOAD";
     static final private String SAVE = "SAVE";
-    WorkingLungProfileList workingList;
+    private LungProfileManager lpManager;
 
-    public LungProfileManagerToolbar(WorkingLungProfileList workingList) {
+    public LungProfileManagerToolbar(LungProfileManager lpManager) {
+        this.lpManager = lpManager;
         addButtons(this);
         setFloatable(false);
         setRollover(true);
-        this.workingList = workingList;
     }
 
      protected void addButtons(JToolBar toolBar) {
@@ -55,10 +56,8 @@ public class LungProfileManagerToolbar extends JToolBar implements ActionListene
         String cmd = e.getActionCommand();
         if (NEW.equals(cmd)) {
             System.out.println("Adding a new lung profile...");
-            int num = LungSimulatorGUIApp.lpManager.getLungProfiles().size();
-            LungSimulatorGUIApp.lpManager.addLungProfile(new LungProfile("New Lung Profile" + num, 152.4f, Sex.FEMALE, 400, 16, 100, 1.0f));
-            System.out.println("Current lung profiles: " + LungSimulatorGUIApp.lpManager.getLungProfiles().size());
-            workingList.updateLungProfiles();
+            int num = lpManager.getLungProfiles().size();
+            lpManager.addLungProfile(new LungProfile("New Lung Profile" + num, 152.4f, Sex.FEMALE, 400, 16, 100, 1.0f));
         } else if (SAVE.equals(cmd)) {
             // TODO: save currently displayed lung profiles to file
         } else if (LOAD.equals(cmd)) {

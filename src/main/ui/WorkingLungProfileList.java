@@ -13,13 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import model.LungProfile;
+import model.LungProfileManager;
+import model.Observer;
 
 /**
  * Code reference(s):
  * https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
  * https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-RadioButtonDemoProject.zip
  */
-public class WorkingLungProfileList extends JPanel implements ActionListener {
+public class WorkingLungProfileList extends JPanel implements ActionListener, Observer {
     private ArrayList<JRadioButton> lungProfileButtons;
     private ButtonGroup group;
 
@@ -27,16 +29,19 @@ public class WorkingLungProfileList extends JPanel implements ActionListener {
         lungProfileButtons = new ArrayList<>();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // XXX
         setPreferredSize(new Dimension(200, 600));
-        updateLungProfiles();
     }
 
-    public void updateLungProfiles() {
+    /**
+     * MODIFIES: this
+     * EFFECTS: creates a new buttion for each element in @param lungProfiles
+     */
+    public void updateLungProfiles(List<LungProfile> lungProfiles) {
         System.out.println("Updating lung profile list...");
         removeAll(); // XXX
         lungProfileButtons.clear();
         group = new ButtonGroup();
 
-        for (LungProfile lp : LungSimulatorGUIApp.lpManager.getLungProfiles()) {
+        for (LungProfile lp : lungProfiles) {
             System.out.println("Adding radio button for: " + lp.getLabel());
             JRadioButton lungProfileButton = new JRadioButton(lp.getLabel());
             lungProfileButton.setActionCommand(lp.getLabel());
@@ -53,5 +58,10 @@ public class WorkingLungProfileList extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO get selected lung profile to display metrics
+    }
+
+    @Override
+    public void update(List<LungProfile> lungProfiles) {
+        updateLungProfiles(lungProfiles);
     }
 }
