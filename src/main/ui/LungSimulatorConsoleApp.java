@@ -50,7 +50,7 @@ public class LungSimulatorConsoleApp {
      * EFFECTS: initializes the application with the starting values
      */
     public void init() {
-        this.lpManager = new LungProfileManager("list of lung profiles");
+        this.lpManager = LungProfileManager.getInstance();
         this.scanner = new Scanner(System.in);
         this.isProgramRunning = true;
         jsonWriter = new JsonWriter(JSON_STORE);

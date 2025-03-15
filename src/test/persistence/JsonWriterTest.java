@@ -19,7 +19,7 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGivenInvalidFileShouldThrowIOException() {
         try {
-            LungProfileManager lpm = new LungProfileManager("My lung profile manager");
+            LungProfileManager lpm = LungProfileManager.getInstance();
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
             writer.open();
             fail("IOException was expected");
@@ -31,7 +31,7 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGivenEmptyLungProfileManagerShouldSucceed() {
         try {
-            LungProfileManager lpm = new LungProfileManager("My lung profile manager");
+            LungProfileManager lpm = LungProfileManager.getInstance();
             JsonWriter writer = new JsonWriter("src/main/data/testWriterEmptyLungProfileManager.json");
             writer.open();
             writer.write(lpm);
@@ -49,7 +49,7 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGivenGeneralLungProfileManagerShouldSucceed() {
         try {
-            LungProfileManager lpm = new LungProfileManager("Jarod's Lung Profiles");
+            LungProfileManager lpm = LungProfileManager.getInstance();
             lpm.addLungProfile(lp1);
             lpm.addLungProfile(lp2);
             lpm.addLungProfile(lp3);

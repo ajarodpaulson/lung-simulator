@@ -20,18 +20,20 @@ import model.LungProfileManager;
  */
 
 public class LungProfileManagerPanel extends JPanel {
-    public LungProfileManagerPanel(LungProfileManager lpManager) {
+    public LungProfileManagerPanel() {
         super();
         this.setBackground(Color.LIGHT_GRAY);
-        setPreferredSize(new Dimension(200, 600)); // Set width, full height
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(200, 400));
 
         // Create and setup scroll panel
         WorkingLungProfileList workingList = new WorkingLungProfileList();
+        LungProfileManager.getInstance().addObserver(workingList);
         JScrollPane scrollPane = new JScrollPane(workingList); // XXX design?
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         // Create and setup toolbar
-        JToolBar toolbar = new LungProfileManagerToolbar(lpManager); // FIXME
+        JToolBar toolbar = new LungProfileManagerToolbar(); // FIXME
 
         // Add toolbar and scroll panel
         add(toolbar, BorderLayout.NORTH);

@@ -14,19 +14,47 @@ import persistence.Writable;
  * 
  * CLASS INVARIANT(S):
  * Labels in lpList must be unique
+ * 
+ * Code reference(s):
  */
 public class LungProfileManager extends Observable implements Writable {
 
     private List<LungProfile> lpList;
     private String name;
+    private static LungProfileManager lungProfileManager;
+    // XXX Design decision? how else could I have done this? I don't really want the manager to know about this
+    // but where else would I have stored which lung profile the user had currently selected?
+    private LungProfile activeLungProfile;
+
+    public LungProfile getActiveLungProfile() {
+        return activeLungProfile;
+    }
+
+    public void setActiveLungProfile(LungProfile activeLungProfile) {
+        this.activeLungProfile = activeLungProfile;
+        notifyObservers();
+    }
 
     /*
      * Constructs new LungProfileManager with empty list
      */
-    public LungProfileManager(String name) {
+    private LungProfileManager() {
         lpList = new ArrayList<>();
-        this.name = name;
+        this.name = "My lung profile manager";
     }
+
+    /**
+	 * Gets instance of LungProfileManager - creates it
+	 * if it doesn't already exist.
+	 * (Singleton Design Pattern)
+	 * @return  instance of EventLog
+	 */
+	public static LungProfileManager getInstance() {
+		if (lungProfileManager == null)
+			lungProfileManager = new LungProfileManager();
+		
+		return lungProfileManager;
+	}
 
     public List<LungProfile> getLungProfiles() {
         return this.lpList;
@@ -49,7 +77,8 @@ public class LungProfileManager extends Observable implements Writable {
 
     /*
      * REQUIRES: size of list must be > 0
-     * EFFECTS: returns an Optional<LungProfile> which contains a lung profile if one with corresponding label 
+     * EFFECTS: returns an Optional<LungProfile> which contains a lung profile if
+     * one with corresponding label
      * is found or is empty if it cannot be found
      */
     public Optional<LungProfile> findLungProfile(String label) {
@@ -68,19 +97,28 @@ public class LungProfileManager extends Observable implements Writable {
      */
     public void addLungProfile(LungProfile lp) {
         this.lpList.add(lp);
+        notifyObservers();
     }
 
     /*
-     * REQUIRES: lung profile list mustn't be empty and lung profile must exist in the list
+     * REQUIRES: lung profile list mustn't be empty and lung profile must exist in
+     * the list
      * MODIFIES: this
      * EFFECTS: deletes the supplied lung profile
      */
     public boolean deleteLungProfile(LungProfile lp) {
-        return lpList.remove(lp);
+        boolean wasRemoved = lpList.remove(lp);
+        if (wasRemoved) {
+            if (lp.equals(activeLungProfile)) {
+                activeLungProfile = null;
+            }
+            notifyObservers();
+        }
+        return wasRemoved;
     }
 
     /*
-     * Code Reference(s): CPSC 210 JsonSerializationDemo 
+     * Code Reference(s): CPSC 210 JsonSerializationDemo
      * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
      */
     @Override
@@ -92,7 +130,7 @@ public class LungProfileManager extends Observable implements Writable {
     }
 
     /*
-     * Code Reference(s): CPSC 210 JsonSerializationDemo 
+     * Code Reference(s): CPSC 210 JsonSerializationDemo
      * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
      */
     // EFFECTS: returns lung profiels in this as a JSON array
@@ -108,7 +146,13 @@ public class LungProfileManager extends Observable implements Writable {
 
     @Override
     public void notifyObservers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
+        for (Observer next : observers) {
+            next.update(lpList);
+        }
     }
 }
+
+/*
+ * If you want to have multiple users, you'd have "another singleton that holds a map of users
+ * and their respective managers"
+ */

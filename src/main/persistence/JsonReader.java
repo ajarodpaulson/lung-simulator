@@ -53,7 +53,10 @@ public class JsonReader {
     // EFFECTS: parses LungProfileManager from JSON object and returns it
     private LungProfileManager parseJsonObject(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        LungProfileManager lpm = new LungProfileManager(name);
+        LungProfileManager lpm = LungProfileManager.getInstance();
+        // XXX good idea?
+        lpm.getLungProfiles().clear();
+        // to here
         addLungProfiles(lpm, jsonObject);
         return lpm;
     }
