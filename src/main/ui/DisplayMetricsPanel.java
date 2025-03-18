@@ -19,7 +19,7 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
     public DisplayMetricsPanel() {
         super();
         this.setBackground(Color.WHITE);
-        setPreferredSize(new Dimension(400, 400));
+        setPreferredSize(new Dimension(450, 600));
         System.out.println("creating display metrics panel");
         lungProfile = LungProfileManager.getInstance().getActiveLungProfile();
         metrics = new JTextArea();

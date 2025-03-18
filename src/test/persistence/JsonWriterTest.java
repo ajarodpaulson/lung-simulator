@@ -1,5 +1,6 @@
 package persistence;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.LungProfile;
@@ -15,11 +16,17 @@ import static org.junit.jupiter.api.Assertions.*;
  * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
 class JsonWriterTest extends JsonTest {
+    LungProfileManager lpm;
+
+    @BeforeEach
+    void setup() {
+        this.lpm = LungProfileManager.getInstance();
+        lpm.resetInstance();
+    }
 
     @Test
     void testWriterGivenInvalidFileShouldThrowIOException() {
         try {
-            LungProfileManager lpm = LungProfileManager.getInstance();
             JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
             writer.open();
             fail("IOException was expected");
@@ -31,7 +38,6 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGivenEmptyLungProfileManagerShouldSucceed() {
         try {
-            LungProfileManager lpm = LungProfileManager.getInstance();
             JsonWriter writer = new JsonWriter("src/main/data/testWriterEmptyLungProfileManager.json");
             writer.open();
             writer.write(lpm);
@@ -49,7 +55,6 @@ class JsonWriterTest extends JsonTest {
     @Test
     void testWriterGivenGeneralLungProfileManagerShouldSucceed() {
         try {
-            LungProfileManager lpm = LungProfileManager.getInstance();
             lpm.addLungProfile(lp1);
             lpm.addLungProfile(lp2);
             lpm.addLungProfile(lp3);
@@ -61,7 +66,7 @@ class JsonWriterTest extends JsonTest {
             JsonReader reader = new JsonReader("src/main/data/testWriterGeneralLungProfileManager.json");
 
             lpm = reader.read();
-            assertEquals("Jarod's Lung Profiles", lpm.getName());
+            assertEquals("My lung profile manager", lpm.getName());
             List<LungProfile> lpList = lpm.getLungProfiles();
             assertEquals(3, lpList.size());
             checkLungProfile("COPD", 158.0f, Sex.FEMALE, 350, 16, 100, 1.0f, lpList.get(0));

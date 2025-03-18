@@ -26,6 +26,15 @@ public class LungProfileManager extends Observable implements Writable {
     // but where else would I have stored which lung profile the user had currently selected?
     private LungProfile activeLungProfile;
 
+    public void resetInstance() {
+        init();
+    }
+
+    private void init() {
+        lpList = new ArrayList<>();
+        this.name = "My lung profile manager";
+    }
+
     public LungProfile getActiveLungProfile() {
         return activeLungProfile;
     }
@@ -39,8 +48,7 @@ public class LungProfileManager extends Observable implements Writable {
      * Constructs new LungProfileManager with empty list
      */
     private LungProfileManager() {
-        lpList = new ArrayList<>();
-        this.name = "My lung profile manager";
+        init();
     }
 
     /**
