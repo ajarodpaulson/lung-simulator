@@ -22,8 +22,10 @@ public class LungProfileManager extends Observable implements Writable {
     private List<LungProfile> lpList;
     private String name;
     private static LungProfileManager lungProfileManager;
-    // XXX Design decision? how else could I have done this? I don't really want the manager to know about this
-    // but where else would I have stored which lung profile the user had currently selected?
+    // XXX Design decision? how else could I have done this? I don't really want the
+    // manager to know about this
+    // but where else would I have stored which lung profile the user had currently
+    // selected?
     private LungProfile activeLungProfile;
 
     public void resetInstance() {
@@ -52,17 +54,18 @@ public class LungProfileManager extends Observable implements Writable {
     }
 
     /**
-	 * Gets instance of LungProfileManager - creates it
-	 * if it doesn't already exist.
-	 * (Singleton Design Pattern)
-	 * @return  instance of EventLog
-	 */
-	public static LungProfileManager getInstance() {
-		if (lungProfileManager == null)
-			lungProfileManager = new LungProfileManager();
-		
-		return lungProfileManager;
-	}
+     * Gets instance of LungProfileManager - creates it
+     * if it doesn't already exist.
+     * (Singleton Design Pattern)
+     * 
+     * @return instance of EventLog
+     */
+    public static LungProfileManager getInstance() {
+        if (lungProfileManager == null) {
+            lungProfileManager = new LungProfileManager();
+        }
+        return lungProfileManager;
+    }
 
     public List<LungProfile> getLungProfiles() {
         return this.lpList;
@@ -161,6 +164,7 @@ public class LungProfileManager extends Observable implements Writable {
 }
 
 /*
- * If you want to have multiple users, you'd have "another singleton that holds a map of users
+ * If you want to have multiple users, you'd have "another singleton that holds
+ * a map of users
  * and their respective managers"
  */

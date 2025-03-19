@@ -4,16 +4,13 @@ import javax.swing.*;
 
 import model.LungProfile;
 import model.LungProfileManager;
-import model.Observer;
 import model.LungProfile.Sex;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class SettingsDialog extends JDialog implements ActionListener {
-
     private JTextField labelField, heightField, tvField, rrField, complianceField, resistanceField;
     private JRadioButton maleButton, femaleButton;
     private JButton acceptButton, discardButton;
@@ -136,28 +133,13 @@ public class SettingsDialog extends JDialog implements ActionListener {
             int compliance = Integer.parseInt(complianceField.getText());
             float resistance = Float.parseFloat(resistanceField.getText());
 
-            // Example Output (Modify as needed)
-            System.out.println("Label: " + label);
-            System.out.println("Height: " + height);
-            System.out.println("Sex: " + sex);
-            System.out.println("TV: " + tv);
-            System.out.println("RR: " + rr);
-            System.out.println("Compliance: " + compliance);
-            System.out.println("Resistance: " + resistance);
-
             LungProfile lungProfile = new LungProfile(label, height, sex, tv, rr, compliance, resistance);
             LungProfileManager.getInstance().addLungProfile(lungProfile);
-            
 
-            dispose(); // Close dialog after accepting
+            dispose();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid input. Please enter appropriate values.", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

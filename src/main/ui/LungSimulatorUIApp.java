@@ -17,7 +17,7 @@ import model.LungProfileManager;
  * https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-ListDemoProject.zip
  */
 
-public class LungSimulatorGUIApp {
+public class LungSimulatorUIApp {
 
     // public static LungProfileManager lpManager = new LungProfileManager("list of
     // lung profiles");
@@ -29,7 +29,7 @@ public class LungSimulatorGUIApp {
      * this method should be invoked from the
      * event-dispatching thread.
      */
-    public LungSimulatorGUIApp() {
+    public LungSimulatorUIApp() {
         // Create and set up the window.
         JFrame frame = new JFrame("Lung Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

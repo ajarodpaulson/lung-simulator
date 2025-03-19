@@ -24,12 +24,12 @@ import persistence.JsonWriter;
  */
 
 public class LungProfileManagerToolbar extends JToolBar implements ActionListener {
-    static final private String NEW = "NEW";
-    static final private String LOAD = "LOAD";
-    static final private String SAVE = "SAVE";
+    private static final String NEW = "NEW";
+    private static final String LOAD = "LOAD";
+    private static final String SAVE = "SAVE";
     private JsonReader jsonReader;
     private JsonWriter jsonWriter;
-    private final String JSON_STORE = "src/main/data/lungProfileManager.json";
+    private static final String JSON_STORE = "src/main/data/lungProfileManager.json";
     private LungProfileManager lungProfileManager = LungProfileManager.getInstance();
 
     public LungProfileManagerToolbar() {
@@ -70,16 +70,13 @@ public class LungProfileManagerToolbar extends JToolBar implements ActionListene
         } else if (SAVE.equals(cmd)) {
             saveLungProfileManager();
         } else if (LOAD.equals(cmd)) {
-            loadLungProfileManager();   
+            loadLungProfileManager();
         }
     }
 
     /**
      * REQUIRES: this must have a JFrame parent in the UI hierarchy
      * EFFECTS: obtains the JFrame parent of this in the UI hierarchy and returns it
-     * 
-     * @param parent
-     * @return
      */
     private JFrame getFrame(Container parent) {
         if (parent instanceof JFrame) {

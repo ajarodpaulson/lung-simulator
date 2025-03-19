@@ -11,7 +11,9 @@ import model.LungProfile.Sex;
  * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
 public class JsonTest extends TestLungProfiles {
-    protected void checkLungProfile(String label, float height, Sex sex, int tidalVolume, int respRate, int compliance, float resistance, LungProfile lp) {
+    protected void checkLungProfile(
+            String label, float height, Sex sex, int tidalVolume, int respRate, int compliance, float resistance,
+            LungProfile lp) {
         assertEquals(label, lp.getLabel());
         assertEquals(height, lp.getHeight());
         assertEquals(sex, lp.getSex());

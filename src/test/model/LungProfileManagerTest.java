@@ -5,8 +5,23 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 public class LungProfileManagerTest extends TestLungProfiles {
     LungProfileManager lpm;
+    
+    private class FakeObserver implements Observer {
+        private boolean updateRan = false;
+
+        public boolean getUpdateRan() {
+            return updateRan;
+        }
+
+        @Override
+        public void update(List<LungProfile> lungProfiles) {
+            updateRan =  true;
+        }
+    }
 
     @BeforeEach
     void runBefore() {
@@ -134,6 +149,21 @@ public class LungProfileManagerTest extends TestLungProfiles {
         lpm.deleteLungProfile(lp1);
         assertTrue(lpm.getLungProfiles().isEmpty());
         assertNull(lpm.getActiveLungProfile());
+    }
+
+    @Test
+    void testAddObserver() {
+        FakeObserver fakeObserver = new FakeObserver();
+        lpm.addObserver(fakeObserver);
+        assertTrue(lpm.observers.contains(fakeObserver));
+    }
+
+    @Test
+    void testNotifyObservers() {
+        FakeObserver fakeObserver = new FakeObserver();
+        lpm.addObserver(fakeObserver);
+        lpm.notifyObservers();
+        assertTrue(fakeObserver.getUpdateRan());
     }
 }
 

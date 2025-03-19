@@ -24,7 +24,7 @@ import model.Observer;
  */
 public class WorkingLungProfileList extends JPanel implements Observer {
     private ArrayList<JRadioButton> lungProfileButtons;
-    private ButtonGroup group;
+    private ButtonGroup lungProfileButtonGroup;
     private LungProfileManager lungProfileManager;
     private int workingListSize;
 
@@ -39,39 +39,51 @@ public class WorkingLungProfileList extends JPanel implements Observer {
      * MODIFIES: this
      * EFFECTS: creates a new buttion for each element in @param lungProfiles
      */
+
+     /*
+      * jobs:
+      remove all the components from 
+      */
     public void updateLungProfiles(List<LungProfile> lungProfiles) {
-        System.out.println("Updating lung profile list...");
-        removeAll(); // XXX
+        removeAll();
         lungProfileButtons.clear();
-        group = new ButtonGroup();
+        lungProfileButtonGroup = new ButtonGroup();
 
         for (LungProfile lp : lungProfiles) {
-            System.out.println("Adding radio button for: " + lp.getLabel());
             JPanel rowPanel = new JPanel();
             rowPanel.setLayout(new BoxLayout(rowPanel, BoxLayout.X_AXIS));
-            JRadioButton lungProfileButton = new JRadioButton(lp.getLabel());
-            lungProfileButton.setActionCommand(lp.getLabel());
-            lungProfileButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    lungProfileManager.setActiveLungProfile(lp);
-                }
-            });
-            group.add(lungProfileButton);
+            JRadioButton lungProfileButton = makeLungProfileButton(lp);
             lungProfileButtons.add(lungProfileButton);
-            JButton removeButton = new JButton("X");
-            removeButton.setActionCommand(lp.getLabel());
-            removeButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    lungProfileManager.deleteLungProfile(lp);
-                }
-            });
+            JButton removeButton = makeRemoveButton(lp);
             rowPanel.add(lungProfileButton);
             rowPanel.add(removeButton);
             this.add(rowPanel);
         }
-
         revalidate();
         repaint();
+    }
+
+    private JButton makeRemoveButton(LungProfile lp) {
+        JButton removeButton = new JButton("X");
+        removeButton.setActionCommand(lp.getLabel());
+        removeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                lungProfileManager.deleteLungProfile(lp);
+            }
+        });
+        return removeButton;
+    }
+
+    private JRadioButton makeLungProfileButton(LungProfile lp) {
+        JRadioButton lungProfileButton = new JRadioButton(lp.getLabel());
+        lungProfileButton.setActionCommand(lp.getLabel());
+        lungProfileButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                lungProfileManager.setActiveLungProfile(lp);
+            }
+        });
+        lungProfileButtonGroup.add(lungProfileButton);
+        return lungProfileButton;
     }
 
     @Override

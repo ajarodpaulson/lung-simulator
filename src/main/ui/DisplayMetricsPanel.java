@@ -40,14 +40,14 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
      */
     public String summarizeLungCharacteristics(LungProfile lp) {
         String summary = String.format(
-                "Lung Profile: %s\n" +
-                        "Height: %.1f %s\n" +
-                        "Sex: %s\n" +
-                        "Tidal Volume: %d %s\n" +
-                        "Respiratory Rate: %d %s\n" +
-                        "Compliance: %d %s\n" +
-                        "Resistance: %.2f %s\n" +
-                        "Ideal Body Weight: %.1f %s",
+                "Lung Profile: %s\n"
+                        + "Height: %.1f %s\n"
+                        + "Sex: %s\n"
+                        + "Tidal Volume: %d %s\n"
+                        + "Respiratory Rate: %d %s\n"
+                        + "Compliance: %d %s\n"
+                        + "Resistance: %.2f %s\n"
+                        + "Ideal Body Weight: %.1f %s",
                 lp.getLabel(),
                 lp.getHeight(), LungProfile.heightUnits,
                 lp.getSex(),
@@ -55,9 +55,8 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
                 lp.getRespRate(), LungProfile.respRateUnits,
                 lp.getCompliance(), LungProfile.complianceUnits,
                 lp.getResistance(), LungProfile.resistanceUnits,
-                lp.getIBW(), LungProfile.idealBWUnits) +
-
-                outputScalarMetrics(lp);
+                lp.getIBW(), LungProfile.idealBWUnits)
+                + outputScalarMetrics(lp);
         return summary;
     }
 
@@ -82,8 +81,8 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
      * EFFECTS: outputs scalar metrics for the supplied lung profile
      */
     private String outputScalarMetrics(LungProfile lp) {
-        return summarizeScalarTimeMetrics(lungProfile.getVolumeTimeScalar()) +
-                summarizeScalarTimeMetrics(lungProfile.getFlowTimeScalar());
+        return summarizeScalarTimeMetrics(lungProfile.getVolumeTimeScalar())
+                + summarizeScalarTimeMetrics(lungProfile.getFlowTimeScalar());
     }
 
     @Override
