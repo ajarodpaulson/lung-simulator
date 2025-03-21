@@ -3,10 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import persistence.Writable;
 
 /*
@@ -15,36 +13,13 @@ import persistence.Writable;
  * CLASS INVARIANT(S):
  * Labels in lpList must be unique
  * 
- * Code reference(s):
  */
 public class LungProfileManager extends Observable implements Writable {
 
     private List<LungProfile> lpList;
     private String name;
     private static LungProfileManager lungProfileManager;
-    // XXX Design decision? how else could I have done this? I don't really want the
-    // manager to know about this
-    // but where else would I have stored which lung profile the user had currently
-    // selected?
     private LungProfile activeLungProfile;
-
-    public void resetInstance() {
-        init();
-    }
-
-    private void init() {
-        lpList = new ArrayList<>();
-        this.name = "My lung profile manager";
-    }
-
-    public LungProfile getActiveLungProfile() {
-        return activeLungProfile;
-    }
-
-    public void setActiveLungProfile(LungProfile activeLungProfile) {
-        this.activeLungProfile = activeLungProfile;
-        notifyObservers();
-    }
 
     /*
      * Constructs new LungProfileManager with empty list
@@ -59,12 +34,41 @@ public class LungProfileManager extends Observable implements Writable {
      * (Singleton Design Pattern)
      * 
      * @return instance of EventLog
+     * 
+     * Code reference: CPSC 210 AlarmSystem
      */
     public static LungProfileManager getInstance() {
         if (lungProfileManager == null) {
             lungProfileManager = new LungProfileManager();
         }
         return lungProfileManager;
+    }
+
+
+    /**
+     * MODIFIES: this
+     * EFFECTS: reverts this to its initial state
+     */
+    public void resetInstance() {
+        init();
+    }
+
+    /**
+     * MODIFIES: this
+     * EFFECTS: sets initial state of this 
+     */
+    private void init() {
+        lpList = new ArrayList<>();
+        this.name = "My lung profile manager";
+    }
+
+    public LungProfile getActiveLungProfile() {
+        return activeLungProfile;
+    }
+
+    public void setActiveLungProfile(LungProfile activeLungProfile) {
+        this.activeLungProfile = activeLungProfile;
+        notifyObservers();
     }
 
     public List<LungProfile> getLungProfiles() {
@@ -131,6 +135,8 @@ public class LungProfileManager extends Observable implements Writable {
     /*
      * Code Reference(s): CPSC 210 JsonSerializationDemo
      * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+     * 
+     * EFFECTS: converts this.LpList into a JSONObject
      */
     @Override
     public JSONObject toJson() {
@@ -143,8 +149,9 @@ public class LungProfileManager extends Observable implements Writable {
     /*
      * Code Reference(s): CPSC 210 JsonSerializationDemo
      * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+     * 
+     * EFFECTS: returns lung profiles in this as a JSON array
      */
-    // EFFECTS: returns lung profiels in this as a JSON array
     private JSONArray lungProfilesToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -155,6 +162,10 @@ public class LungProfileManager extends Observable implements Writable {
         return jsonArray;
     }
 
+
+    /**
+     * EFFECTS: notifies observers of this and passed them this.lpList
+     */
     @Override
     public void notifyObservers() {
         for (Observer next : observers) {
@@ -162,9 +173,3 @@ public class LungProfileManager extends Observable implements Writable {
         }
     }
 }
-
-/*
- * If you want to have multiple users, you'd have "another singleton that holds
- * a map of users
- * and their respective managers"
- */

@@ -6,30 +6,30 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
-
 import model.LungProfileManager;
 
 /**
- * Code reference(s): 
+ * Represents a panel for adding, saving, loading, and displaying lung profiles
  */
-
 public class LungProfileManagerPanel extends JPanel {
+
+    /**
+     * EFFECTS: constructs a new LungProfileManagerPanel which has a LungProfileManagerToolbar for updating
+     *  WorkingLungProfileList, which displays the lung profiles and is scrollable
+     */
     public LungProfileManagerPanel() {
         super();
         this.setBackground(Color.LIGHT_GRAY);
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(350, 600));
 
-        // Create and setup scroll panel
         WorkingLungProfileList workingList = new WorkingLungProfileList();
         LungProfileManager.getInstance().addObserver(workingList);
         JScrollPane scrollPane = new JScrollPane(workingList); 
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        // Create and setup toolbar
-        JToolBar toolbar = new LungProfileManagerToolbar(); // FIXME
+        JToolBar toolbar = new LungProfileManagerToolbar(); 
 
-        // Add toolbar and scroll panel
         add(toolbar, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }

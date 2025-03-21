@@ -22,7 +22,6 @@ public class FlowTimeScalar extends ScalarTime {
         return "flow";
     }
 
-    // XXX design decision...
     @Override 
     protected float calculateScalarValueAtTimeInSeconds(float time) {
         return (float) (calculateAmplitude()

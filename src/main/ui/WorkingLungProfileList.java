@@ -1,23 +1,24 @@
 package ui;
 
-import java.awt.Button;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-
 import model.LungProfile;
 import model.LungProfileManager;
 import model.Observer;
 
 /**
+ * Observes and displays the lung profile list held by
+ * LungProfileManager.getInstance() and
+ * allows for an individual lung profile to be selected to have its metrics
+ * displayed in DisplayMetricsPanel
+ * 
  * Code reference(s):
  * https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
  * https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-RadioButtonDemoProject.zip
@@ -28,9 +29,13 @@ public class WorkingLungProfileList extends JPanel implements Observer {
     private LungProfileManager lungProfileManager;
     private int workingListSize;
 
+    /**
+     * EFFECTS: creates a new WorkingLungProfileList with lung profiles placed using
+     * a box layout
+     */
     WorkingLungProfileList() {
         lungProfileButtons = new ArrayList<>();
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // XXX
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         lungProfileManager = LungProfileManager.getInstance();
         workingListSize = lungProfileManager.getLungProfiles().size();
     }
@@ -39,11 +44,6 @@ public class WorkingLungProfileList extends JPanel implements Observer {
      * MODIFIES: this
      * EFFECTS: creates a new buttion for each element in @param lungProfiles
      */
-
-     /*
-      * jobs:
-      remove all the components from 
-      */
     public void updateLungProfiles(List<LungProfile> lungProfiles) {
         removeAll();
         lungProfileButtons.clear();
@@ -63,6 +63,13 @@ public class WorkingLungProfileList extends JPanel implements Observer {
         repaint();
     }
 
+    /**
+     * MODIFIES: LungProfileManager.getInstance()
+     * EFFECTS: creates a remove button that deletes @param lp from
+     * LungProfileManager.getInstance()
+     * 
+     * @return the remove button for an associated lung profile
+     */
     private JButton makeRemoveButton(LungProfile lp) {
         JButton removeButton = new JButton("X");
         removeButton.setActionCommand(lp.getLabel());
@@ -74,6 +81,15 @@ public class WorkingLungProfileList extends JPanel implements Observer {
         return removeButton;
     }
 
+    /**
+     * MODIFIES: LungProfileManager.getInstance()
+     * EFFECTS: creates a radio button and label associated with the @param lp;
+     * when the button is pressed, sets active lung profile for
+     * LungProfileManager.getInstance()
+     * 
+     * @return the button to select and display metrics for the associated lung
+     *         profile
+     */
     private JRadioButton makeLungProfileButton(LungProfile lp) {
         JRadioButton lungProfileButton = new JRadioButton(lp.getLabel());
         lungProfileButton.setActionCommand(lp.getLabel());
@@ -86,6 +102,14 @@ public class WorkingLungProfileList extends JPanel implements Observer {
         return lungProfileButton;
     }
 
+    /**
+     * MODIFIES: this
+     * EFFECTS: receives updates from the Observable
+     * LungProfileManager.getInstance()
+     * if the size of the lung profile list for LungProfileManager.getInstance() is
+     * different
+     * than workingListSize, calls updateLungProfiles(lungProfiles)
+     */
     @Override
     public void update(List<LungProfile> lungProfiles) {
         if (workingListSize == lungProfiles.size()) {

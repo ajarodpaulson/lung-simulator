@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Represents an observable in the Observer Design Pattern
+ * 
  * Code reference(s): CPSC 210 AlarmSystem
  */
 public abstract class Observable {

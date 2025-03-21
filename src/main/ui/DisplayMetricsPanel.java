@@ -3,24 +3,31 @@ package ui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
 import model.LungProfile;
 import model.LungProfileManager;
 import model.Observer;
 import model.ScalarTime;
 
+/**
+ * Represents a panel that displays the metrics of the currently selected lung
+ * profile in the WorkingLungProfileList, or an informative message if no profile
+ * currently selected
+ */
+
 public class DisplayMetricsPanel extends JPanel implements Observer {
     private LungProfile lungProfile;
     private JTextArea metrics;
 
+    /**
+     * EFFECTS: constructs a new display metrics panel with non-editable text area for 
+     * displaying metrics from currently selected lung profile
+     */
     public DisplayMetricsPanel() {
         super();
         this.setBackground(Color.WHITE);
         setPreferredSize(new Dimension(450, 600));
-        System.out.println("creating display metrics panel");
         lungProfile = LungProfileManager.getInstance().getActiveLungProfile();
         metrics = new JTextArea();
         metrics.setEditable(false);
@@ -30,7 +37,6 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
         } else {
             metrics.setText(summarizeLungCharacteristics(lungProfile));
         }
-        // Add the JTextArea directly to the panel
         add(metrics);
     }
 
@@ -47,7 +53,8 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
                         + "Respiratory Rate: %d %s\n"
                         + "Compliance: %d %s\n"
                         + "Resistance: %.2f %s\n"
-                        + "Ideal Body Weight: %.1f %s",
+                        + "Ideal Body Weight: %.1f %s\n"
+                        + "---------------------------\n",
                 lp.getLabel(),
                 lp.getHeight(), LungProfile.heightUnits,
                 lp.getSex(),
@@ -82,12 +89,17 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
      */
     private String outputScalarMetrics(LungProfile lp) {
         return summarizeScalarTimeMetrics(lungProfile.getVolumeTimeScalar())
+                + "\n"
                 + summarizeScalarTimeMetrics(lungProfile.getFlowTimeScalar());
     }
 
+    /**
+     * MODIFIES: this
+     * EFFECTS: displays the active lung profile in LungProfileManager.getInstance() and 
+     * refreshes the display
+     */
     @Override
     public void update(List<LungProfile> lungProfiles) {
-        // Retrieve the latest active lung profile from the manager
         lungProfile = LungProfileManager.getInstance().getActiveLungProfile();
         if (lungProfile != null) {
             metrics.setText(summarizeLungCharacteristics(lungProfile));

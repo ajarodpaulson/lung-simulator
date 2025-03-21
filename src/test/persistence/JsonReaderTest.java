@@ -2,6 +2,8 @@ package persistence;
 
 import model.*;
 import model.LungProfile.Sex;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -14,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
  */
 class JsonReaderTest extends JsonTest {
+    @BeforeEach
+    void setup() {
+        LungProfileManager.getInstance().resetInstance();
+    }
 
     @Test
     void testReaderGivenNonExistentFileShouldThrowIOException() {

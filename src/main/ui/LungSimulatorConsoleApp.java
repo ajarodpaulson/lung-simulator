@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Consumer;
-
 import model.LungProfile;
 import model.LungProfile.Sex;
 import model.LungProfileManager;

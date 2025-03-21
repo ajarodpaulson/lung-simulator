@@ -5,10 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import model.LungProfile;
 import model.LungProfile.Sex;
 import model.LungProfileManager;
@@ -54,9 +52,6 @@ public class JsonReader {
     private LungProfileManager parseJsonObject(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         LungProfileManager lpm = LungProfileManager.getInstance();
-        // XXX good idea?
-        lpm.getLungProfiles().clear();
-        // to here
         addLungProfiles(lpm, jsonObject);
         return lpm;
     }

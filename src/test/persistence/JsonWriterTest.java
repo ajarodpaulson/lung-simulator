@@ -62,7 +62,7 @@ class JsonWriterTest extends JsonTest {
             writer.open();
             writer.write(lpm);
             writer.close();
-
+            lpm.resetInstance();
             JsonReader reader = new JsonReader("src/main/data/testWriterGeneralLungProfileManager.json");
 
             lpm = reader.read();
