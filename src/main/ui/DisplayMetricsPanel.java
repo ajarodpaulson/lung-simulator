@@ -17,7 +17,7 @@ import model.observer.Observer;
  */
 
 public class DisplayMetricsPanel extends JPanel implements Observer {
-    private LungProfile lungProfile;
+    private LungProfile activeLungProfile;
     private JTextArea metrics;
 
     /**
@@ -28,14 +28,14 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
         super();
         this.setBackground(Color.WHITE);
         setPreferredSize(new Dimension(450, 600));
-        lungProfile = LungProfileManager.getInstance().getActiveLungProfile();
+        activeLungProfile = LungProfileManager.getInstance().getActiveLungProfile();
         metrics = new JTextArea();
         metrics.setEditable(false);
 
-        if (lungProfile == null) {
+        if (activeLungProfile == null) {
             metrics.setText("No lung profile has been selected.");
         } else {
-            metrics.setText(summarizeLungCharacteristics(lungProfile));
+            metrics.setText(summarizeLungCharacteristics(activeLungProfile));
         }
         add(metrics);
     }
@@ -88,9 +88,9 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
      * EFFECTS: outputs scalar metrics for the supplied lung profile
      */
     private String outputScalarMetrics(LungProfile lp) {
-        return summarizeScalarTimeMetrics(lungProfile.getVolumeTimeScalar())
+        return summarizeScalarTimeMetrics(activeLungProfile.getVolumeTimeScalar())
                 + "\n"
-                + summarizeScalarTimeMetrics(lungProfile.getFlowTimeScalar());
+                + summarizeScalarTimeMetrics(activeLungProfile.getFlowTimeScalar());
     }
 
     /**
@@ -100,9 +100,9 @@ public class DisplayMetricsPanel extends JPanel implements Observer {
      */
     @Override
     public void update(List<LungProfile> lungProfiles) {
-        lungProfile = LungProfileManager.getInstance().getActiveLungProfile();
-        if (lungProfile != null) {
-            metrics.setText(summarizeLungCharacteristics(lungProfile));
+        activeLungProfile = LungProfileManager.getInstance().getActiveLungProfile();
+        if (activeLungProfile != null) {
+            metrics.setText(summarizeLungCharacteristics(activeLungProfile));
         } else {
             metrics.setText("No active lung profile.");
         }
