@@ -1,23 +1,12 @@
 {
     "name": "My lung profile manager",
-    "lpList": [
-        {
-            "rr": 18,
-            "tv": 400,
-            "compliance": 150,
-            "sex": "FEMALE",
-            "label": "Sam",
-            "resistance": 1,
-            "height": 165
-        },
-        {
-            "rr": 22,
-            "tv": 412,
-            "compliance": 183,
-            "sex": "FEMALE",
-            "label": "Maggie",
-            "resistance": 1,
-            "height": 185
-        }
-    ]
+    "lpList": [{
+        "rr": 18,
+        "tv": 400,
+        "compliance": 150,
+        "sex": "FEMALE",
+        "label": "Sam",
+        "resistance": 1,
+        "height": 165
+    }]
 }

@@ -1,4 +1,4 @@
-package model;
+package model.observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,10 @@ import java.util.List;
  */
 public abstract class Observable {
     protected List<Observer> observers;
+
+    public List<Observer> getObservers() {
+        return observers;
+    }
 
     /**
      * Constructor creates an empty list of observers

@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import model.LungProfile;
 import model.LungProfileManager;
-import model.Observer;
 import model.ScalarTime;
+import model.observer.Observer;
 
 /**
  * Represents a panel that displays the metrics of the currently selected lung

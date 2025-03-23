@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import model.observer.Observable;
+import model.observer.Observer;
 import persistence.Writable;
 
 /*
@@ -20,6 +23,7 @@ public class LungProfileManager extends Observable implements Writable {
     private String name;
     private static LungProfileManager lungProfileManager;
     private LungProfile activeLungProfile;
+    private EventLog eventLog = EventLog.getInstance();
 
     /*
      * Constructs new LungProfileManager with empty list
@@ -67,7 +71,13 @@ public class LungProfileManager extends Observable implements Writable {
     }
 
     public void setActiveLungProfile(LungProfile activeLungProfile) {
+        if (this.activeLungProfile == activeLungProfile) {
+            return;
+        }
+
         this.activeLungProfile = activeLungProfile;
+        String message = (this.activeLungProfile == null) ? "A lung profile has not been selected to display." : "Now displaying the lung profile labelled: " + activeLungProfile.getLabel() + ".";
+        eventLog.logEvent(new Event(message));
         notifyObservers();
     }
 
@@ -112,6 +122,7 @@ public class LungProfileManager extends Observable implements Writable {
      */
     public void addLungProfile(LungProfile lp) {
         this.lpList.add(lp);
+        eventLog.logEvent(new Event("The lung profile labelled " + lp.getLabel() + " was added to the list."));
         notifyObservers();
     }
 
@@ -125,8 +136,9 @@ public class LungProfileManager extends Observable implements Writable {
         boolean wasRemoved = lpList.remove(lp);
         if (wasRemoved) {
             if (lp.equals(activeLungProfile)) {
-                activeLungProfile = null;
+                setActiveLungProfile(null);
             }
+            eventLog.logEvent(new Event("The lung profile labelled: " + lp.getLabel() + " was deleted from the list."));
             notifyObservers();
         }
         return wasRemoved;

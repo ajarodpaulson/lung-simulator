@@ -3,6 +3,8 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.observer.Observer;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
@@ -155,7 +157,7 @@ public class LungProfileManagerTest extends TestLungProfiles {
     void testAddObserver() {
         FakeObserver fakeObserver = new FakeObserver();
         lpm.addObserver(fakeObserver);
-        assertTrue(lpm.observers.contains(fakeObserver));
+        assertTrue(lpm.getObservers().contains(fakeObserver));
     }
 
     @Test

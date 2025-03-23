@@ -1,6 +1,8 @@
-package model;
+package model.observer;
 
 import java.util.List;
+
+import model.LungProfile;
 
 /**
  * Represents an observer in the Observer Design Pattern

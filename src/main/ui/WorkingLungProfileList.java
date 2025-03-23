@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import model.LungProfile;
 import model.LungProfileManager;
-import model.Observer;
+import model.observer.Observer;
 
 /**
  * Observes and displays the lung profile list held by

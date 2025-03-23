@@ -2,11 +2,16 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+
+import model.Event;
+import model.EventLog;
 import model.LungProfileManager;
 
 /**
@@ -16,8 +21,9 @@ import model.LungProfileManager;
  * Code reference(s):
  * https://docs.oracle.com/javase/tutorial/uiswing/examples/zipfiles/components-ListDemoProject.zip
  */
-public class LungSimulatorUIApp {
+public class LungSimulatorUIApp implements WindowListener {
     private static final String IMG_PATH = "src/main/data/splash.jpeg";
+    private JFrame frame;
 
     /**
      * EFFECTS: Create the GUI and show it. For thread safety,
@@ -25,8 +31,9 @@ public class LungSimulatorUIApp {
      * event-dispatching thread.
      */
     public LungSimulatorUIApp() {
-        JFrame frame = new JFrame("Lung Simulator");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame = new JFrame("Lung Simulator");
+        frame.addWindowListener(this);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         JPanel leftPanel = new LungProfileManagerPanel();
@@ -45,8 +52,10 @@ public class LungSimulatorUIApp {
 
     /**
      * EFFECTS: displays a splash image for 3 seconds
+     * 
      * @param size the size of the JWindow
-     * Code reference: https://stackoverflow.com/questions/16134549/how-to-make-a-splash-screen-for-gui
+     *             Code reference:
+     *             https://stackoverflow.com/questions/16134549/how-to-make-a-splash-screen-for-gui
      */
     private void displaySplashImage(Dimension size) {
         JWindow splashScreen = new JWindow();
@@ -63,5 +72,42 @@ public class LungSimulatorUIApp {
         }
         splashScreen.setVisible(false);
         splashScreen.dispose();
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        return;
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        frame.dispose();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.getDescription());
+        }
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        return;
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        return;
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        return;
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        return;
     }
 }
