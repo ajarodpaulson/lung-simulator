@@ -44,6 +44,12 @@ public class LungProfileManagerTest extends TestLungProfiles {
         assertEquals(lp1, lpm.getActiveLungProfile());
     }
 
+    @Test
+    void testSetActiveLungProfileDuplicateCall() {
+        testSetActiveLungProfile();
+        testSetActiveLungProfile();
+    }
+
     @Test 
     void testSetNameGivenDifferentNameShouldUpdateNameCorrectly() {
         lpm.setName("Kitamura");

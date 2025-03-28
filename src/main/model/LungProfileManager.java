@@ -39,7 +39,7 @@ public class LungProfileManager extends Observable implements Writable {
      * 
      * @return instance of EventLog
      * 
-     * Code reference: CPSC 210 AlarmSystem
+     *         Code reference: CPSC 210 AlarmSystem
      */
     public static LungProfileManager getInstance() {
         if (lungProfileManager == null) {
@@ -47,7 +47,6 @@ public class LungProfileManager extends Observable implements Writable {
         }
         return lungProfileManager;
     }
-
 
     /**
      * MODIFIES: this
@@ -59,7 +58,7 @@ public class LungProfileManager extends Observable implements Writable {
 
     /**
      * MODIFIES: this
-     * EFFECTS: sets initial state of this 
+     * EFFECTS: sets initial state of this
      */
     private void init() {
         lpList = new ArrayList<>();
@@ -76,7 +75,12 @@ public class LungProfileManager extends Observable implements Writable {
         }
 
         this.activeLungProfile = activeLungProfile;
-        String message = (this.activeLungProfile == null) ? "A lung profile has not been selected to display." : "Now displaying the lung profile labelled: " + activeLungProfile.getLabel() + ".";
+        String message = "";
+        if (this.activeLungProfile == null) {
+            message = "A lung profile has not been selected to display.";
+        } else {
+            message = "Now displaying the lung profile labelled: " + activeLungProfile.getLabel() + ".";
+        }
         eventLog.logEvent(new Event(message));
         notifyObservers();
     }
@@ -138,7 +142,7 @@ public class LungProfileManager extends Observable implements Writable {
             if (lp.equals(activeLungProfile)) {
                 setActiveLungProfile(null);
             }
-            eventLog.logEvent(new Event("The lung profile labelled: " + lp.getLabel() + " was deleted from the list."));
+            eventLog.logEvent(new Event("The lung profile labelled " + lp.getLabel() + " was deleted from the list."));
             notifyObservers();
         }
         return wasRemoved;
@@ -173,7 +177,6 @@ public class LungProfileManager extends Observable implements Writable {
 
         return jsonArray;
     }
-
 
     /**
      * EFFECTS: notifies observers of this and passed them this.lpList
