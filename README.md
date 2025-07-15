@@ -1,6 +1,7 @@
 # Lung Simulator
 
 A simplified representation of key ventilation- and lung-related parameters and their impact on ventilation metrics.
+This is an academic project.
 
 ## What does the application do?
 The application depicts a lung model, several modifiable physical parameters, and several scalar versus time waveforms that illustrate the impact of these parameters on key ventilation metrics.
